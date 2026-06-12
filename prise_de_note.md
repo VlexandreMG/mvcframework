@@ -10,7 +10,7 @@
     - Un petit contenu du à propos de ce servlet s'impose 
     pour que je puisse le rédiger à la main sur tous ce que j'ai besoin 
 
-```
+```java
 package com.monframework.core;
 
 import jakarta.servlet.ServletContainerInitializer;
@@ -41,3 +41,30 @@ public class FrameworkInitializer implements ServletContainerInitializer {
     }
 }
 ```
+
+## Url -> 
+```java
+package com.monframework.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface Url {
+    String value();
+}
+```
+    -> Retention 
+        -> Duree de vie anle post-it
+            -> SOURCE - detruite après compilation 
+               CLASS - reste dans le fichier.class mais invisible lorsque l'app tourne 
+               RUNTIME - tsy maty tant que mande le app 
+    -> Target
+        -> @ inona no tokony apetraka le post-it 
+    -> le terme annotation 
+        -> Otrn hoe post-it le code 
+    -> value()
+        -> lasa texte le url 
