@@ -42,7 +42,7 @@ public class FrameworkInitializer implements ServletContainerInitializer {
 }
 ```
 
-## Url -> 
+## Url -> Transformer l'url taper par l'user en texte 
 ```java
 package com.monframework.annotation;
 
@@ -68,3 +68,24 @@ public @interface Url {
         -> Otrn hoe post-it le code 
     -> value()
         -> lasa texte le url 
+
+## Mapping -> ty le class dia ty le methode mifanaraka aminy 
+```java
+package com.monframework.core;
+
+public class Mapping {
+    private String className;  // Ex: "com.monapp.controller.EmpController"
+    private String method;     // Ex: "listeEmployes"
+
+    public Mapping(String className, String method) {
+        this.className = className;
+        this.method = method;
+    }
+
+    // Getters et Setters
+    public String getClassName() { return className; }
+    public void setClassName(String className) { this.className = className; }
+    public String getMethod() { return method; }
+    public void setMethod(String method) { this.method = method; }
+}
+```
