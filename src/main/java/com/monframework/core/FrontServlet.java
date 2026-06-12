@@ -18,7 +18,7 @@ public class FrontServlet extends HttpServlet {
     public void init() throws ServletException {
         // Pour le MVP, on enregistre manuellement une route fictive qui sera dans l'App Web plus tard
         // URL: "/employe-liste" -> correspondra à la classe EmpController et sa méthode "getListe"
-        mappingUrls.put("/employe-liste", new Mapping("com.monapp.controller.EmpController", "getListe"));
+        mappingUrls.put("monapp//employe-liste", new Mapping("com.monapp.controller.EmpController", "getListe"));
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
