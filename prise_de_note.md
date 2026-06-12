@@ -189,3 +189,11 @@ public class FrontServlet extends HttpServlet {
                     On affiche les résultats 
     -> Explique le doGet et le doPost 
 
+## Ma question c'est où dans le code transforme le framework en .jar  
+    - C'est pas java , c'est Maven qui transforme le framework en jar dans le pom.xml 
+```xml
+<groupId>com.monframework</groupId>
+<artifactId>mvcframework</artifactId>
+<version>1.0-SNAPSHOT</version>
+<packaging>jar</packaging>  <-- C'EST CETTE LIGNE ICI ! 
+```
