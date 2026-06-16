@@ -6,9 +6,9 @@
 
     - Le contenu du paramètre
         -> Set<Class<?>> c
-            ->
+            -> Toutes les classes dans l'app
         -> ServletContext ctx
-            -> Contrôle totale anle application web 
+            -> Tout l'application web aux yeux de tomcat 
     - Un petit contenu du à propos de ce servlet s'impose 
     pour que je puisse le rédiger à la main sur tous ce que j'ai besoin 
 
@@ -197,3 +197,20 @@ public class FrontServlet extends HttpServlet {
 <version>1.0-SNAPSHOT</version>
 <packaging>jar</packaging>  <-- C'EST CETTE LIGNE ICI ! 
 ```
+
+## Workflow du sprint 0 : 
+# Au demarrage tomcat 
+    - Lit mon app -> Detecte le .jar dans lib/ 
+    - Scanne le .jar -> Detecte le fichier d'initialisation 'jakarta.servlet.ServletContainerInitializer'
+    - Déclenche le FrameworkInitializer.onStartup()
+        -> Injecten'ao @ tomcat le 'FrontServlet' 
+            dia omeo anazy daholo ny requête rehetra (/*)
+        -> Après anzay lanceny le method init() 
+
+    - Mamaky anle fichier classes ao @ monapp 
+    - Inspecteny le 'com.monapp.controller.EmpController' 
+    - Detectenle annotation @Url("/employ-list) eo @ getListe() 
+    - Créeny @ zay le hashmap. 
+
+# Rehefa mandefa anle lien 
+    - Fandehan'processRequest 
