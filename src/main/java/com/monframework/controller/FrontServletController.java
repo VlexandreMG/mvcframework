@@ -16,7 +16,7 @@ public class FrontServletController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        touteslesClasses  = Utilitaire.getClassesInPackage("com.app.controller");
+        touteslesClasses  = Utilitaire.getClassesInPackage("com.monapp.controller");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -25,14 +25,14 @@ public class FrontServletController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        if (touteslesClasses != null) {
+        if (touteslesClasses != null && !touteslesClasses.isEmpty()) {
             for (Class<?> class1 : touteslesClasses) {
-            String className = class1.getName();
-            out.println(className + "<br>");       
+                String className = class1.getName();
+                out.println(className + "<br>");       
             }    
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            out.println("Il n'y a pas de classes dans le fichier correspondant");          
+            out.println("⚠️ Le framework est bien là, mais AUCUNE classe .class n'a été trouvée dans com.monapp.controller !");          
         }
         
     }
