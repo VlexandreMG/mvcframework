@@ -51,4 +51,16 @@ public class Utilitaire {
         
         return classes;
     }
+
+    public static List<Class>?>> getClassesWithAnnotation(String packageName) {
+        List<Class<?>> classesWithAnnotation = new ArrayList<>();
+        List<Class<?>> classesInPackage = getClassesInPackage(packageName);
+        for (Class<?> classesInPackage : cp) {
+            if (cp.isAnnotationPresent(Annotation.class)) {
+                classesWithAnnotation.add(cp);
+            }
+        }
+
+        return classesWithAnnotation;
+    }
 }
