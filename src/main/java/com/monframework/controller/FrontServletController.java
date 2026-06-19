@@ -16,32 +16,26 @@ public class FrontServletController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        touteslesClasses  = Utilitaire.getClassesInPackage("com.monapp.controller");
+        touteslesClasses = Utilitaire.getClassesWithAnnotation("com.monapp.controller");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
         if (touteslesClasses != null && !touteslesClasses.isEmpty()) {
             for (Class<?> class1 : touteslesClasses) {
                 String className = class1.getName();
-                
                 // 1. Si la classe possède l'annotation
-                if (class1.isAnnotationPresent(Annotation.class)) {
-                    out.println(" <b>[Annotée]</b> " + className + "<br>");
-                } else {
-                    out.println(" <b>[Non Annotée]</b> " + className + "<br>");
-                }
-
-            }    
+                out.println(className + "<br>");
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            out.println("⚠️ Le framework est bien là, mais aucune classe n'a été trouvée.");          
+            out.println("⚠️ Le framework est bien là, mais aucune classe n'a été trouvée.");
         }
-        
+
     }
 
     @Override
