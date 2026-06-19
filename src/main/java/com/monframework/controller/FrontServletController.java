@@ -32,11 +32,10 @@ public class FrontServletController extends HttpServlet {
                 // 1. Si la classe possède l'annotation
                 if (class1.isAnnotationPresent(Annotation.class)) {
                     out.println(" <b>[Annotée]</b> " + className + "<br>");
-                } 
-                // 2. Si la classe NE possède PAS l'annotation
-                else {
-                    out.println(" <i>[Non annotée]</i> " + className + "<br>");
+                } else {
+                    out.println(" <b>[Non Annotée]</b> " + className + "<br>");
                 }
+
             }    
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
