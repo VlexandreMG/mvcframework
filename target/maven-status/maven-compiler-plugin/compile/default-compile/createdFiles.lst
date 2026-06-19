@@ -1,5 +1,8 @@
 com/monframework/core/FrameworkInitializer.class
-com/monframework/core/Mapping.class
-com/monframework/annotation/Url.class
+com/monframework/controller/Annotation.class
 com/monframework/App.class
 com/monframework/core/FrontServlet.class
+com/monframework/core/Mapping.class
+com/monframework/controller/Utilitaire.class
+com/monframework/annotation/Url.class
+com/monframework/controller/FrontServletController.class
