@@ -16,7 +16,7 @@ public class FrontServletController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        touteslesClasses  = Utilitaire.getClassesInPackage(String packageName);
+        touteslesClasses  = Utilitaire.getClassesInPackage("com.app.controller");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

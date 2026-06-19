@@ -2,7 +2,7 @@ package com.monframework.core;
 
 import java.util.Set;
 
-import controller.FrontServletController;
+import com.monframework.controller.FrontServletController;
 
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
@@ -23,13 +23,19 @@ public class FrameworkInitializer implements ServletContainerInitializer {
 
             //Ataoa anaty tomcat 
         ServletRegistration.Dynamic registration = ctx.addServlet("FrontServlet", frontServlet);
-        ServletRegistration.Dynamic registration = ctx.addServlet("FrontServletController", frontServletController);
+        ServletRegistration.Dynamic registration2 = ctx.addServlet("FrontServletController", frontServletController);
 
             //Intercepter tout 
         registration.addMapping("/");
 
             //Tsy miandry ny user fa tonga dia atao 
         registration.setLoadOnStartup(1);
+
+            //Intercepter tout 
+        registration2.addMapping("/");
+
+            //Tsy miandry ny user fa tonga dia atao 
+        registration2.setLoadOnStartup(1);
 
         System.out.println("[Framework] FrontServlet enregistré avec succès sur '/'");
     }
