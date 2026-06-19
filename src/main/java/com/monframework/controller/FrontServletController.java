@@ -28,11 +28,19 @@ public class FrontServletController extends HttpServlet {
         if (touteslesClasses != null && !touteslesClasses.isEmpty()) {
             for (Class<?> class1 : touteslesClasses) {
                 String className = class1.getName();
-                out.println(className + "<br>");       
+                
+                // 1. Si la classe possède l'annotation
+                if (class1.isAnnotationPresent(Annotation.class)) {
+                    out.println(" <b>[Annotée]</b> " + className + "<br>");
+                } 
+                // 2. Si la classe NE possède PAS l'annotation
+                else {
+                    out.println(" <i>[Non annotée]</i> " + className + "<br>");
+                }
             }    
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            out.println("⚠️ Le framework est bien là, mais AUCUNE classe .class n'a été trouvée dans com.monapp.controller !");          
+            out.println("⚠️ Le framework est bien là, mais aucune classe n'a été trouvée.");          
         }
         
     }
