@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class FrontServletController extends HttpServlet {
-    
+
     List<Class<?>> touteslesClasses = new ArrayList<>();
 
     @Override
@@ -25,10 +25,16 @@ public class FrontServletController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        for (Class<?> class1 : touteslesClasses) {
+        if (touteslesClasses != null) {
+            for (Class<?> class1 : touteslesClasses) {
             String className = class1.getName();
-            out.println("+" className "\n");       
+            out.println(className + "<br>");       
+            }    
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            out.println("Il n'y a pas de classes dans le fichier correspondant");          
         }
+        
     }
 
     @Override
