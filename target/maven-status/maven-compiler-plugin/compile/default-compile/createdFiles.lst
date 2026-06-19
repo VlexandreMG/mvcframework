@@ -1,6 +1,0 @@
-com/monframework/core/FrameworkInitializer.class
-com/monframework/App.class
-com/monframework/controller/annotation.class
-com/monframework/core/FrontServlet.class
-com/monframework/core/Mapping.class
-com/monframework/annotation/Url.class
