@@ -6,6 +6,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import com.monframework.annotation.Controller;
 
 public class Utilitaire {
     public static List<Class<?>> getClassesInPackage(String packageName) {
@@ -67,20 +70,24 @@ public class Utilitaire {
         return classesWithAnnotation;
     }
 
-    public static List<Method> getFunctionsInClass(Class<?> className) {
-        List<Method> toutesLesMethodes = new ArrayList<Method>();
+    public static Map<Controller, Method> getAnnotationsWithClasses(Class<?> className) {
+        Map<Controller, Method> methodesAnnotess = new HashMap();
 
         // 1. On vérifie si la classe fournie n'est pas nulle pour éviter les plantages
         if (className != null) {
             // 2. Détecter toutes les méthodes publiques déclarées dans la classe
             Method[] methodesArray = className.getDeclaredMethods();
 
-            // 3. Les mettre toutes dans notre liste
-            toutesLesMethodes.addAll(Arrays.asList(methodesArray));
+            for (Method method : methodesArray) {
+                if (method.isAnnotationPresent(Controller.class)) {
+                   Controller annotation = method.getAnnotation(Controller.class);
+                   methodesAnnotess.put(annotation, method);
+                }
+            }
         } else {
             System.out.println("La classe " + className + "n'existe pas.");
         }
 
-        return toutesLesMethodes;
+        return methodesAnnotess;
     }
 }
