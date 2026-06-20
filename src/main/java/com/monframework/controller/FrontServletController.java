@@ -9,6 +9,7 @@ import java.util.List;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.lang.reflect.Method;
 
 public class FrontServletController extends HttpServlet {
 
@@ -29,9 +30,9 @@ public class FrontServletController extends HttpServlet {
             for (Class<?> class1 : touteslesClasses) {
                 String className = class1.getName();
                 out.println(className + "<br>");
-                List<Class<?>> fonctionClasses = Utilitaire.getFunctionsInClass(class1);
-                for (Class<?> class2 : fonctionClasses) {
-                    out.println("Fonction :"+ class2);
+                List<Method> fonctionClasses = Utilitaire.getFunctionsInClass(class1);
+                for (Method method : fonctionClasses) {
+                    out.println("Fonction :"+ method);
                 }
             }
         } else {

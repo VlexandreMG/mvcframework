@@ -67,8 +67,8 @@ public class Utilitaire {
         return classesWithAnnotation;
     }
 
-    public static List<Class<?>> getFunctionsInClass(Class<?> className) {
-        List<Method> toutesLesMethodes = new ArrayList<>();
+    public static List<Method> getFunctionsInClass(Class<?> className) {
+        List<Method> toutesLesMethodes = new ArrayList<Method>();
 
         // 1. On vérifie si la classe fournie n'est pas nulle pour éviter les plantages
         if (className != null) {
