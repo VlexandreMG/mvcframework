@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import com.monframework.annotation.Controller;
 
 public class FrontServletController extends HttpServlet {
 
@@ -33,9 +36,12 @@ public class FrontServletController extends HttpServlet {
 
                 out.println("Les fonctions de cette classe : <br>");
 
-                List<Method> fonctionClasses = Utilitaire.getFunctionsInClass(class1);
-                for (Method method : fonctionClasses) {
-                    out.println("Fonction :"+ method + "<br>");
+                Map<Controller, Method> annotees = Utilitaire.getAnnotationsWithClasses(class1);
+
+                for (Map.Entry<Controller, Method> entry : annotees.entrySet()) {
+                    Method methode = entry.getValue();
+                    Controller ctl = entry.getKey();
+                    out.println(methode.getName()+"||"+ ctl.value() + "<br>");
                 }
             }
         } else {
