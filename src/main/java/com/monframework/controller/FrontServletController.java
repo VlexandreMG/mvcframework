@@ -30,9 +30,12 @@ public class FrontServletController extends HttpServlet {
             for (Class<?> class1 : touteslesClasses) {
                 String className = class1.getName();
                 out.println(className + "<br>");
+
+                out.println("Les fonctions de cette classe : <br>");
+
                 List<Method> fonctionClasses = Utilitaire.getFunctionsInClass(class1);
                 for (Method method : fonctionClasses) {
-                    out.println("Fonction :"+ method);
+                    out.println("Fonction :"+ method + "<br>");
                 }
             }
         } else {
