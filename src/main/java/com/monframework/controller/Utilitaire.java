@@ -72,7 +72,7 @@ public class Utilitaire {
 
     public static Map<Controller, Method> getAnnotationsWithClasses(Class<?> className) {
         Map<Controller, Method> methodesAnnotess = new HashMap();
-
+ 
         // 1. On vérifie si la classe fournie n'est pas nulle pour éviter les plantages
         if (className != null) {
             // 2. Détecter toutes les méthodes publiques déclarées dans la classe
