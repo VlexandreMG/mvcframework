@@ -28,8 +28,11 @@ public class FrontServletController extends HttpServlet {
         if (touteslesClasses != null && !touteslesClasses.isEmpty()) {
             for (Class<?> class1 : touteslesClasses) {
                 String className = class1.getName();
-                // 1. Si la classe possède l'annotation
                 out.println(className + "<br>");
+                List<Class<?>> fonctionClasses = Utilitaire.getFunctionsInClass(class1);
+                for (Class<?> class2 : fonctionClasses) {
+                    out.println("Fonction :"+ class2);
+                }
             }
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
