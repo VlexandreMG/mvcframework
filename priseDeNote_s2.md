@@ -48,3 +48,24 @@ mettre en static ?
 -> Pourquoi getValue() et getKey()
     -> getKey() : Donne accès à la clé de cette ligne , @ ty izy @Controller.
     -> getValue() : Même chose que getKey() mais le objet method no retourneny.  
+
+## Explication an_dalana 
+```java
+    for (Class<?> class1 : touteslesClasses) {
+                
+                Map<String, Mapping> link = Utilitaire.createMapping(class1);
+                
+                if (link.containsKey(urlContenu)) {
+                    
+                    Mapping mapp = link.get(urlContenu);
+
+                    out.println("Nom de la fonction : "+ mapp.getMethode().getName() + " || " + " Nom de la classe : " + mapp.getClassName().getName() + " || " + " Lien tapé : " + urlContenu + "<br>");
+                    trouvee = true;
+                    break;
+                }
+            }
+```
+    -> Explique le containsKey 
+        -> Mi_contenir anle key v , mireturn false na true 
+    -> Explicque le get de la map 
+        -> Recupère la valeur associé à une key specifique. 
