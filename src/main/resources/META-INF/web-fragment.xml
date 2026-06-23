@@ -15,7 +15,7 @@
 
     <servlet-mapping>
         <servlet-name>FrontServletController</servlet-name>
-        <url-pattern>/test-scan</url-pattern>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
     <servlet>

@@ -31,8 +31,7 @@ public class FrontServletController extends HttpServlet {
 
         //
             //Prends la requête de l'utilsateur  
-        String urlContenu = request.getRequestURI().
-        substring(request.getContextPath().length());
+        String urlContenu = request.getRequestURI().substring(request.getContextPath().length());
             //Condition de cette requête 
         // 
 
@@ -48,7 +47,7 @@ public class FrontServletController extends HttpServlet {
                 for (Map.Entry<Controller, Method> entry : annotees.entrySet()) {
                     Method methode = entry.getValue();
                     Controller ctl = entry.getKey();
-                    if (urlContenu == ctl.value()) {
+                    if (urlContenu.equals(ctl.value())) {
                         out.println("Nom de la fonction :"+ methode.getName() + "||" + "Url tapé" + ctl.value() + "||" + "Classe correspndante" + class1.getName() + "br");
                     } else {
                         out.println("Nous ne connaisons pas ce lien :/ <br>");
