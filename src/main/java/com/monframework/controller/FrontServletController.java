@@ -31,7 +31,7 @@ public class FrontServletController extends HttpServlet {
 
         //
             //Prends la requête de l'utilsateur  
-        String urlContenu = request.getRequestURI().substring(request.getContextPath().length());
+        String urlContenu = request.getPathInfo();
             //Condition de cette requête 
         // 
 

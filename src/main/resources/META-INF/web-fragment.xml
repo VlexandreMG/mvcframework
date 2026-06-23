@@ -15,7 +15,7 @@
 
     <servlet-mapping>
         <servlet-name>FrontServletController</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/ctl/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
