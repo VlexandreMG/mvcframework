@@ -1,5 +1,7 @@
 package com.monframework.core;
 
+import java.lang.reflect.Method;
+
 public class Mapping {
     private Class className;
     private Method methode;
