@@ -71,3 +71,34 @@ mettre en static ?
         -> Recupère la valeur associé à une key specifique. 
 
 ## [ERROR] /home/balou/S4/WebDy/Projet/mvcframework/src/main/java/com/monframework/controller/FrontServletController.java:[63,129] value() is not public in java.lang.String; cannot be accessed from outside package
+-> ay ny string kay tsy mila value() tsony 
+
+## Mandefa anle jar any lib ny app 
+```xml
+    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-jar-to-app</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>/home/balou/S4/WebDy/Projet/monapp/WEB-INF/lib</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}</directory>
+                                    <includes>
+                                        <include>${project.build.finalName}.jar</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+```
+- Aza adino ny mireload anle pom.xml 

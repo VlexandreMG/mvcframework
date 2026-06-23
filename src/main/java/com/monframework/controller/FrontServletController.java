@@ -54,7 +54,7 @@ public class FrontServletController extends HttpServlet {
                 }
             }
             if (!trouvee) {
-                out.println("Il n'y a pas de fonction associé à cette Url. <br>");
+                out.println("HSeeeee Il n'y a pas de fonction associé à cette Url. <br>");
                 for (Class<?> class1 : touteslesClasses) {
                     Map<String, Mapping> lien = Utilitaire.createMapping(class1);
                     for (Map.Entry<String,Mapping> ln : lien.entrySet()) {
