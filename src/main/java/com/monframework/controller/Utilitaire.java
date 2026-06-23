@@ -85,7 +85,7 @@ public class Utilitaire {
                         Controller annotation = method.getAnnotation(Controller.class);
                         methodesAnnotess.put(annotation, method);   
                     } else {
-                        System.out.println("La méthode "+ method.getName + "est annotée mais n'est pas en public.");
+                        System.out.println("La méthode "+ method.getName() + "est annotée mais n'est pas en public.");
                     }
                 }
             }

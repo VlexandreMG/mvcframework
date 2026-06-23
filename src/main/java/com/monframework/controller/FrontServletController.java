@@ -29,10 +29,17 @@ public class FrontServletController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
+        //
+            //Prends la requête de l'utilsateur  
+        String urlContenu = request.getRequestURI().
+        substring(request.getContextPath().length());
+            //Condition de cette requête 
+        // 
+
         if (touteslesClasses != null && !touteslesClasses.isEmpty()) {
             for (Class<?> class1 : touteslesClasses) {
                 String className = class1.getName();
-                out.println(className + "<br>");
+                out.println("Le nom de la classe : "+ className + "<br>");
 
                 out.println("Les fonctions de cette classe : <br>");
 
@@ -41,7 +48,13 @@ public class FrontServletController extends HttpServlet {
                 for (Map.Entry<Controller, Method> entry : annotees.entrySet()) {
                     Method methode = entry.getValue();
                     Controller ctl = entry.getKey();
-                    out.println(methode.getName()+"||"+ ctl.value() + "<br>");
+                    if (urlContenu == ctl.value()) {
+                        out.println("Nom de la fonction :"+ methode.getName() + "||" + "Url tapé" + ctl.value() + "||" + "Classe correspndante" + class1.getName() + "br");
+                    } else {
+                        out.println("Nous ne connaisons pas ce lien :/ <br>");
+                        out.println("Voici les liens disponibles : <br>");
+                        out.println(methode.getName()+"||"+ ctl.value() + "<br>");
+                    }
                 }
             }
         } else {
