@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import com.monframework.annotation.Controller;
+import com.monframework.core.Mapping;
 
 public class FrontServletController extends HttpServlet {
 
@@ -21,6 +22,7 @@ public class FrontServletController extends HttpServlet {
     @Override
     public void init() throws ServletException {
         touteslesClasses = Utilitaire.getClassesWithAnnotation("com.monapp.controller");
+        
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -34,37 +36,31 @@ public class FrontServletController extends HttpServlet {
         String urlContenu = request.getPathInfo();
         // Condition de cette requête
         //
+        
+        boolean trouvee = false;
 
         if (touteslesClasses != null && !touteslesClasses.isEmpty()) {
             for (Class<?> class1 : touteslesClasses) {
-                String className = class1.getName();
-                out.println("Le nom de la classe : " + className + "<br>");
+                
+                Map<String, Mapping> link = Utilitaire.createMapping(class1);
+                
+                if (link.containsKey(urlContenu)) {
+                    
+                    Mapping mapp = link.get(urlContenu);
 
-                out.println("Les fonctions de cette classe : <br>");
-
-                Map<Controller, Method> annotees = Utilitaire.getAnnotationsWithClasses(class1);
-
-                boolean urlTrouve = false;
-
-                for (Map.Entry<Controller, Method> entry : annotees.entrySet()) {
-                    Method methode = entry.getValue();
-                    Controller ctl = entry.getKey();
-                    if (urlContenu.equals(ctl.value())) {
-                        out.println(" Nom de la fonction : " + methode.getName() + " || " + " Url tapé : " + ctl.value()
-                                + " || " + " Classe correspndante : " + class1.getName() + "<br>");
-                        urlTrouve = true;
-                        break;
-                    }
+                    out.println("Nom de la fonction : "+ mapp.getMethode().getName() + " || " + " Nom de la classe : " + mapp.getClassName().getName() + " || " + " Lien tapé : " + urlContenu + "<br>");
+                    trouvee = true;
+                    break;
                 }
-                if (!urlTrouve) {
-                    out.println("Nous ne connaisons pas ce lien :/ <br>");
-                    out.println("Voici les liens disponibles : <br>");
-                    for (Map.Entry<Controller, Method> entry : annotees.entrySet()) {
-                        Method methode = entry.getValue();
-                        Controller ctl = entry.getKey();
-                        out.println(methode.getName() + "||" + ctl.value() + "<br>");
-                    }
-                }
+            }
+            if (!trouvee) {
+                out.println("Il n'y a pas de fonction associé à cette Url. <br>");
+                // for (Class<?> class1 : touteslesClasses) {
+                //     Map<String, Mapping> lien = createMapping(class1);
+                //     for (Map.Entry<K,V> class2 : touteslesClasses) {
+                        
+                //     }
+                // }
             }
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);

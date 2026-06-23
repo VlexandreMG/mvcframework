@@ -74,7 +74,7 @@ public class Utilitaire {
 
     public static Map<Controller, Method> getAnnotationsWithClasses(Class<?> className) {
         Map<Controller, Method> methodesAnnotess = new HashMap();
- 
+
         // 1. On vérifie si la classe fournie n'est pas nulle pour éviter les plantages
         if (className != null) {
             // 2. Détecter toutes les méthodes publiques déclarées dans la classe
@@ -84,9 +84,9 @@ public class Utilitaire {
                 if (method.isAnnotationPresent(Controller.class)) {
                     if (Modifier.isPublic(method.getModifiers())) {
                         Controller annotation = method.getAnnotation(Controller.class);
-                        methodesAnnotess.put(annotation, method);   
+                        methodesAnnotess.put(annotation, method);
                     } else {
-                        System.out.println("La méthode "+ method.getName() + "est annotée mais n'est pas en public.");
+                        System.out.println("La méthode " + method.getName() + "est annotée mais n'est pas en public.");
                     }
                 }
             }
@@ -97,29 +97,27 @@ public class Utilitaire {
         return methodesAnnotess;
     }
 
+    public static Map<String, Mapping> createMapping(Class<?> class1) {
 
-    public static List<Mapping> createMapping(List<Class<?>> listeClasse) {
+        Map<String, Mapping> tableRoutage = new HashMap<>();
 
-        List<Mapping> listMapping = new ArrayList<>();
+        Method[] method = class1.getDeclaredMethods();
 
-        for (Class<?> class1 : listeClasse) {
-            Method[] method = class1.getDeclaredMethods();
+        for (Method mtd : method) {
+            if (mtd.isAnnotationPresent(Controller.class) && Modifier.isPublic(mtd.getModifiers())) {
+                Controller annotation = mtd.getAnnotation(Controller.class);
+                String url = annotation.value();
 
-            for (Method mtd : method) {
-                if (mtd.isAnnotationPresent(Controller.class) && Modifier.isPublic(mtd.getModifiers())) {
-                    Controller annotation = mtd.getAnnotation(Controller.class);
-                    String url = annotation.value();
+                Mapping mapp = new Mapping();
+                mapp.setClassName(class1);
+                mapp.setMethode(mtd);
 
-                    Mapping mapp = new Mapping();
-                    mapp.setClassName(class1);
-                    mapp.setMethode(mtd);
-
-                    listMapping.add(mapp);
-                } else {
-                    System.out.println("L'annotation n'existe pas ou n'est pas en public.");
-                }
+                tableRoutage.put(url, mapp);
+            } else {
+                System.out.println("L'annotation n'existe pas ou n'est pas en public.");
             }
         }
-        return listMapping;
+
+        return tableRoutage;
     }
 }
