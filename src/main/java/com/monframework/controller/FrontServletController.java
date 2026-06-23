@@ -30,37 +30,42 @@ public class FrontServletController extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         //
-            //Prends la requête de l'utilsateur  
+        // Prends la requête de l'utilsateur
         String urlContenu = request.getPathInfo();
-            //Condition de cette requête 
-        // 
+        // Condition de cette requête
+        //
 
         if (touteslesClasses != null && !touteslesClasses.isEmpty()) {
             for (Class<?> class1 : touteslesClasses) {
                 String className = class1.getName();
-                out.println("Le nom de la classe : "+ className + "<br>");
+                out.println("Le nom de la classe : " + className + "<br>");
 
                 out.println("Les fonctions de cette classe : <br>");
 
                 Map<Controller, Method> annotees = Utilitaire.getAnnotationsWithClasses(class1);
 
+                boolean urlTrouve = false;
+
                 for (Map.Entry<Controller, Method> entry : annotees.entrySet()) {
                     Method methode = entry.getValue();
                     Controller ctl = entry.getKey();
                     if (urlContenu.equals(ctl.value())) {
-                        out.println("Nom de la fonction :"+ methode.getName() + "||" + "Url tapé" + ctl.value() + "||" + "Classe correspndante" + class1.getName() + "br");
-                    } else {
-                        out.println("Nous ne connaisons pas ce lien :/ <br>");
-                        out.println("Voici les liens disponibles : <br>");
-                        out.println(methode.getName()+"||"+ ctl.value() + "<br>");
+                        out.println(" Nom de la fonction : " + methode.getName() + " || " + " Url tapé : " + ctl.value()
+                                + " || " + " Classe correspndante : " + class1.getName() + "<br>");
+                        urlTrouve = true;
+                        break;
                     }
+                }
+                if (!urlTrouve) {
+                        out.println("Nous ne connaisons pas ce lien :/ <br>");
+                        // out.println("Voici les liens disponibles : <br>");
+                        // out.println(methode.getName() + "||" + ctl.value() + "<br>");
                 }
             }
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             out.println("⚠️ Le framework est bien là, mais aucune classe n'a été trouvée.");
         }
-
     }
 
     @Override
