@@ -55,12 +55,14 @@ public class FrontServletController extends HttpServlet {
             }
             if (!trouvee) {
                 out.println("Il n'y a pas de fonction associé à cette Url. <br>");
-                // for (Class<?> class1 : touteslesClasses) {
-                //     Map<String, Mapping> lien = createMapping(class1);
-                //     for (Map.Entry<K,V> class2 : touteslesClasses) {
-                        
-                //     }
-                // }
+                for (Class<?> class1 : touteslesClasses) {
+                    Map<String, Mapping> lien = Utilitaire.createMapping(class1);
+                    for (Map.Entry<String,Mapping> ln : lien.entrySet()) {
+                        String url = ln.getKey();
+                        Mapping map = ln.getValue();
+                        out.println("Nom de la fonction : "+ map.getMethode().getName() + " || " + " Url correspondant : " + url + "<br>");
+                    }
+                }
             }
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);

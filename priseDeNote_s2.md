@@ -69,3 +69,5 @@ mettre en static ?
         -> Mi_contenir anle key v , mireturn false na true 
     -> Explicque le get de la map 
         -> Recupère la valeur associé à une key specifique. 
+
+## [ERROR] /home/balou/S4/WebDy/Projet/mvcframework/src/main/java/com/monframework/controller/FrontServletController.java:[63,129] value() is not public in java.lang.String; cannot be accessed from outside package
