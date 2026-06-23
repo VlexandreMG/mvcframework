@@ -9,6 +9,11 @@ import java.util.List;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import com.monframework.annotation.Controller;
+import com.monframework.core.Mapping;
 
 public class FrontServletController extends HttpServlet {
 
@@ -17,6 +22,7 @@ public class FrontServletController extends HttpServlet {
     @Override
     public void init() throws ServletException {
         touteslesClasses = Utilitaire.getClassesWithAnnotation("com.monapp.controller");
+        
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -25,17 +31,43 @@ public class FrontServletController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
+        //
+        // Prends la requête de l'utilsateur
+        String urlContenu = request.getPathInfo();
+        // Condition de cette requête
+        //
+        
+        boolean trouvee = false;
+
         if (touteslesClasses != null && !touteslesClasses.isEmpty()) {
             for (Class<?> class1 : touteslesClasses) {
-                String className = class1.getName();
-                // 1. Si la classe possède l'annotation
-                out.println(className + "<br>");
+                
+                Map<String, Mapping> link = Utilitaire.createMapping(class1);
+                
+                if (link.containsKey(urlContenu)) {
+                    
+                    Mapping mapp = link.get(urlContenu);
+
+                    out.println("Nom de la fonction : "+ mapp.getMethode().getName() + " || " + " Nom de la classe : " + mapp.getClassName().getName() + " || " + " Lien tapé : " + urlContenu + "<br>");
+                    trouvee = true;
+                    break;
+                }
+            }
+            if (!trouvee) {
+                out.println("Il n'y a pas de fonction associé à cette Url. <br>");
+                for (Class<?> class1 : touteslesClasses) {
+                    Map<String, Mapping> lien = Utilitaire.createMapping(class1);
+                    for (Map.Entry<String,Mapping> ln : lien.entrySet()) {
+                        String url = ln.getKey();
+                        Mapping map = ln.getValue();
+                        out.println("Nom de la fonction : "+ map.getMethode().getName() + " || " + " Url correspondant : " + url + "<br>");
+                    }
+                }
             }
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             out.println("⚠️ Le framework est bien là, mais aucune classe n'a été trouvée.");
         }
-
     }
 
     @Override
