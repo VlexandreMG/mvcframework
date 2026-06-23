@@ -57,9 +57,13 @@ public class FrontServletController extends HttpServlet {
                     }
                 }
                 if (!urlTrouve) {
-                        out.println("Nous ne connaisons pas ce lien :/ <br>");
-                        // out.println("Voici les liens disponibles : <br>");
-                        // out.println(methode.getName() + "||" + ctl.value() + "<br>");
+                    out.println("Nous ne connaisons pas ce lien :/ <br>");
+                    out.println("Voici les liens disponibles : <br>");
+                    for (Map.Entry<Controller, Method> entry : annotees.entrySet()) {
+                        Method methode = entry.getValue();
+                        Controller ctl = entry.getKey();
+                        out.println(methode.getName() + "||" + ctl.value() + "<br>");
+                    }
                 }
             }
         } else {
