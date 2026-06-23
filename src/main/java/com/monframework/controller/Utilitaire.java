@@ -2,6 +2,7 @@ package com.monframework.controller;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,8 +81,12 @@ public class Utilitaire {
 
             for (Method method : methodesArray) {
                 if (method.isAnnotationPresent(Controller.class)) {
-                   Controller annotation = method.getAnnotation(Controller.class);
-                   methodesAnnotess.put(annotation, method);
+                    if (Modifier.isPublic(method.getModifiers())) {
+                        Controller annotation = method.getAnnotation(Controller.class);
+                        methodesAnnotess.put(annotation, method);   
+                    } else {
+                        System.out.println("La méthode "+ method.getName + "est annotée mais n'est pas en public.");
+                    }
                 }
             }
         } else {
