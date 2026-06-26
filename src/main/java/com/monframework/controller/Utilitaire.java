@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,7 +72,7 @@ public class Utilitaire {
     }
 
     public static Map<Controller, Method> getAnnotationsWithClasses(Class<?> className) {
-        Map<Controller, Method> methodesAnnotess = new HashMap();
+        Map<Controller, Method> methodesAnnotess = new HashMap<>();
 
         // 1. On vérifie si la classe fournie n'est pas nulle pour éviter les plantages
         if (className != null) {
