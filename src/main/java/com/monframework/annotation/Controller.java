@@ -9,4 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Controller {
     String value();
+    String method() default "GET";
 }
