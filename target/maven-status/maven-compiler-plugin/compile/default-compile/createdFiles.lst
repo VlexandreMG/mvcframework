@@ -5,3 +5,4 @@ com/monframework/annotation/Controller.class
 com/monframework/core/Mapping.class
 com/monframework/controller/Utilitaire.class
 com/monframework/controller/FrontServletController.class
+com/monframework/core/UrlMapping.class

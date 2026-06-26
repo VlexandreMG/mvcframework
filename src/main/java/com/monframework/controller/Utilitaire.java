@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.monframework.annotation.Controller;
 import com.monframework.core.Mapping;
+import com.monframework.core.UrlMapping;
 
 public class Utilitaire {
     public static List<Class<?>> getClassesInPackage(String packageName) {
@@ -96,22 +97,28 @@ public class Utilitaire {
         return methodesAnnotess;
     }
 
-    public static Map<String, Mapping> createMapping(Class<?> class1) {
+    public static Map<UrlMapping, Mapping> createMapping(Class<?> class1) {
 
-        Map<String, Mapping> tableRoutage = new HashMap<>();
+        Map<UrlMapping, Mapping> tableRoutage = new HashMap<>();
 
         Method[] method = class1.getDeclaredMethods();
 
         for (Method mtd : method) {
             if (mtd.isAnnotationPresent(Controller.class) && Modifier.isPublic(mtd.getModifiers())) {
                 Controller annotation = mtd.getAnnotation(Controller.class);
+
                 String url = annotation.value();
+                String httpMethod = annotation.method();
+
+                UrlMapping urlMap = new UrlMapping();
+                urlMap.setUrl(url);
+                urlMap.setHttpMethod(httpMethod);
 
                 Mapping mapp = new Mapping();
                 mapp.setClassName(class1);
                 mapp.setMethode(mtd);
 
-                tableRoutage.put(url, mapp);
+                tableRoutage.put(urlMap, mapp);
             } else {
                 System.out.println("L'annotation n'existe pas ou n'est pas en public.");
             }

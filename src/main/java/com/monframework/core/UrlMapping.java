@@ -32,4 +32,12 @@ public class UrlMapping {
     public int hashCode() {
         return Objects.hash(url, httpMethod);
     }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setHttpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
+    }
 }
