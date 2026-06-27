@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
 import com.monframework.core.Mapping;
+import com.monframework.core.UrlMapping;
 
 public class FrontServletController extends HttpServlet {
 
@@ -31,6 +32,8 @@ public class FrontServletController extends HttpServlet {
         //
         // Prends la requête de l'utilsateur
         String urlContenu = request.getPathInfo();
+        String typeRequete = request.getMethod();
+        System.out.println("Recherche de : " + urlContenu + " en " + typeRequete);
         // Condition de cette requête
         //
         
@@ -38,28 +41,35 @@ public class FrontServletController extends HttpServlet {
 
         if (touteslesClasses != null && !touteslesClasses.isEmpty()) {
             for (Class<?> class1 : touteslesClasses) {
-                
-                Map<String, Mapping> link = Utilitaire.createMapping(class1);
-                
-                if (link.containsKey(urlContenu)) {
-                    
-                    Mapping mapp = link.get(urlContenu);
 
-                    out.println("Nom de la fonction : "+ mapp.getMethode().getName() + " || " + " Nom de la classe : " + mapp.getClassName().getName() + " || " + " Lien tapé : " + urlContenu + "<br>");
+                System.out.println("La classe " + class1 + "<br>");
+                
+                Map<UrlMapping, Mapping> link = Utilitaire.createMapping(class1);
+
+                System.out.println();
+                
+                UrlMapping urlRecherche = new UrlMapping(urlContenu , typeRequete);
+
+                if (link.containsKey(urlRecherche)) {
+                    
+                    Mapping mapp = link.get(urlRecherche);
+                    System.out.println("Clés disponibles dans la Map : " + link.keySet());
+
+                    out.println("Nom de la fonction : "+ mapp.getMethode().getName() + " || " + " Nom de la classe : " + mapp.getClassName().getName() + " || " + " Lien tapé : " + urlContenu + " || " + " Méthode de ce lien : " + typeRequete + "<br>");
                     trouvee = true;
                     break;
                 }
             }
             if (!trouvee) {
                 out.println("HSeeeee Il n'y a pas de fonction associé à cette Url. <br>");
-                for (Class<?> class1 : touteslesClasses) {
-                    Map<String, Mapping> lien = Utilitaire.createMapping(class1);
-                    for (Map.Entry<String,Mapping> ln : lien.entrySet()) {
-                        String url = ln.getKey();
-                        Mapping map = ln.getValue();
-                        out.println("Nom de la fonction : "+ map.getMethode().getName() + " || " + " Url correspondant : " + url + "<br>");
-                    }
-                }
+                // for (Class<?> class1 : touteslesClasses) {
+                //     Map<String, Mapping> lien = Utilitaire.createMapping(class1);
+                //     for (Map.Entry<String,Mapping> ln : lien.entrySet()) {
+                //         String url = ln.getKey();
+                //         Mapping map = ln.getValue();
+                //         out.println("Nom de la fonction : "+ map.getMethode().getName() + " || " + " Url correspondant : " + url + "<br>");
+                //     }
+                // }
             }
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
