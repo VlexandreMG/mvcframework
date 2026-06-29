@@ -106,13 +106,24 @@ public class Utilitaire {
         for (Method mtd : method) {
             if (mtd.isAnnotationPresent(Controller.class) && Modifier.isPublic(mtd.getModifiers())) {
                 Controller annotation = mtd.getAnnotation(Controller.class);
+                String valeurAnnotation = annotation.value();
 
-                String url = annotation.value();
-                String httpMethod = annotation.method();
+                String url = "";
+                String methodHttp = "GET"; // Par défaut
+
+                // On vérifie si l'utilisateur a mis une virgule pour séparer l'URL et la
+                // Méthode
+                if (valeurAnnotation.contains(",")) {
+                    String[] morceaux = valeurAnnotation.split(",");
+                    url = morceaux[0].trim(); // Récupère "/andrana" (sans espaces)
+                    methodHttp = morceaux[1].trim(); // Récupère "GET" (sans espaces)
+                } else {
+                    url = valeurAnnotation.trim();
+                }
 
                 UrlMapping urlMap = new UrlMapping();
                 urlMap.setUrl(url);
-                urlMap.setHttpMethod(httpMethod);
+                urlMap.setHttpMethod(methodHttp);
 
                 Mapping mapp = new Mapping();
                 mapp.setClassName(class1);

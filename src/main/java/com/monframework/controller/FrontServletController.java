@@ -46,7 +46,8 @@ public class FrontServletController extends HttpServlet {
                 
                 Map<UrlMapping, Mapping> link = Utilitaire.createMapping(class1);
 
-                System.out.println();
+                // On affiche les clés trouvées dans CETTE classe spécifique
+                System.out.println("   -> Clés trouvées dans " + class1.getSimpleName() + " : " + link.keySet());
                 
                 UrlMapping urlRecherche = new UrlMapping(urlContenu , typeRequete);
 
