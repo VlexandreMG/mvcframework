@@ -26,7 +26,7 @@
 
     <servlet-mapping>
         <servlet-name>FrontServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/tap/*</url-pattern>
     </servlet-mapping>
 
 </web-fragment>
