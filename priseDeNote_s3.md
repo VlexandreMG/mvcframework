@@ -36,3 +36,8 @@
         -> Le fonction hash mande isak'mikasika anle hashmap.
 
     -> Fonctionnement du equals()
+        -> Compare le texte/contenu et non via adresse mémoire comme "==".
+         
+        -> Rehefa mifanaraka le hashcode sy le bucket dia zay vô mande le equals. 
+
+        -> Dia ampifanarahan'zareo le fandehany.
