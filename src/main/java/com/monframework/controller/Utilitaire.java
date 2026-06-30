@@ -129,7 +129,11 @@ public class Utilitaire {
                 mapp.setClassName(class1);
                 mapp.setMethode(mtd);
 
-                tableRoutage.put(urlMap, mapp);
+                if (tableRoutage.containsKey(urlMap)) {
+                    throw new RuntimeException("Erreur le lien existe déja ");
+                } else {
+                    tableRoutage.put(urlMap, mapp);
+                }
             } else {
                 System.out.println("L'annotation n'existe pas ou n'est pas en public.");
             }
