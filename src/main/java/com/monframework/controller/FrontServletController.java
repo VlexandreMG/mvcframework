@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
+import java.lang.reflect.Method;
 import com.monframework.core.Mapping;
 import com.monframework.core.UrlMapping;
 
@@ -59,6 +60,23 @@ public class FrontServletController extends HttpServlet {
                     out.println("Nom de la fonction : "+ mapp.getMethode().getName() + " || " + " Nom de la classe : " + mapp.getClassName().getName() + " || " + " Lien tapé : " + urlContenu + " || " + " Méthode de ce lien : " + typeRequete + "<br>");
                     trouvee = true;
                     break;
+
+                    try {
+                        // Chargena le class
+                        Class<?> testController = Class.forName(mapp.getClassName().getName());
+                        //Micréer instance
+                        Object objetTestController = testController.getConstructor().newInstance();
+                        //MiGet fonction rehetra 
+                        Method methodController = testController.getDeclaredMethods.mapp.getMethode();
+                        //Mi_execute anle fonction 
+                        Object resultat = methodController.invoke(objetTestController);
+                        
+                        if (resultat != null) {
+                            out.println(resultat.toString());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             if (!trouvee) {
