@@ -41,3 +41,22 @@
         -> Rehefa mifanaraka le hashcode sy le bucket dia zay vô mande le equals. 
 
         -> Dia ampifanarahan'zareo le fandehany.
+
+## Dans la class Utilitaire , createMapping() 
+```java
+    String url = "";
+    String methodHttp = "GET"; // Par défaut
+
+    // On vérifie si l'utilisateur a mis une virgule pour séparer l'URL et la
+    // Méthode
+    if (valeurAnnotation.contains(",")) {
+        String[] morceaux = valeurAnnotation.split(",");
+        url = morceaux[0].trim(); // Récupère "/andrana" (sans espaces)
+        methodHttp = morceaux[1].trim(); // Récupère "GET" (sans espaces)
+        } else {
+            url = valeurAnnotation.trim();
+        }
+```
+    -> Je pense que les variables url et methodHttp servent à garder les String , non ? 
+        -> Oui j'avais raison. 
+     
