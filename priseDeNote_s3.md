@@ -66,3 +66,12 @@
 ```
     -> Si je comprend bien , il get la valeur via la clé qui est l'urlRecherche non ? 
         -> Oui marinaaa 
+
+## Excpetion de monsieur 
+```java
+    throw new RuntimeException("Erreur le lien existe déja ");
+```
+    -> Que signifie le RunTime et pourquoi lui ? 
+        -> Misy 2 types d'exceptions 
+            -> Checked exception : Exception lié aux events exterieurs.
+            -> Unchecked exception : Lié a des erreur de logique en programmation (Runtime en fait partie )
