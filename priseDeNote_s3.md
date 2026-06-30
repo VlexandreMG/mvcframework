@@ -60,3 +60,9 @@
     -> Je pense que les variables url et methodHttp servent à garder les String , non ? 
         -> Oui j'avais raison. 
      
+## Le zavatra nampiahiahy 
+```java
+    Mapping mapp = link.get(urlRecherche);
+```
+    -> Si je comprend bien , il get la valeur via la clé qui est l'urlRecherche non ? 
+        -> Oui marinaaa 
