@@ -20,7 +20,5 @@ public class Mapping {
     }
     public void setMethode(Method methode) {
         this.methode = methode;
-    }
-
-    
+    }    
 }
