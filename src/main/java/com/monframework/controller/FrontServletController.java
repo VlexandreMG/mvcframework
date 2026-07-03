@@ -59,15 +59,14 @@ public class FrontServletController extends HttpServlet {
 
                     out.println("Nom de la fonction : "+ mapp.getMethode().getName() + " || " + " Nom de la classe : " + mapp.getClassName().getName() + " || " + " Lien tapé : " + urlContenu + " || " + " Méthode de ce lien : " + typeRequete + "<br>");
                     trouvee = true;
-                    break;
-
+                    
                     try {
                         // Chargena le class
                         Class<?> testController = Class.forName(mapp.getClassName().getName());
                         //Micréer instance
                         Object objetTestController = testController.getConstructor().newInstance();
                         //MiGet fonction rehetra 
-                        Method methodController = testController.getDeclaredMethods.mapp.getMethode();
+                        Method methodController = mapp.getMethode();
                         //Mi_execute anle fonction 
                         Object resultat = methodController.invoke(objetTestController);
                         
@@ -77,6 +76,7 @@ public class FrontServletController extends HttpServlet {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    break;
                 }
             }
             if (!trouvee) {
