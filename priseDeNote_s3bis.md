@@ -27,3 +27,6 @@
 ```
     -> Explique pourquoi on a procédé a tout cela pour atteindre cet objectif 
         -> Je pense qu'il fallait charger le classe dans la mémoire pour qu'on puisse attenindre la fonction et l'executer 
+
+    -> Différence entre classe et objet 
+        -> la classe c'est le plan , l'instancier c'est le fait de créer un objet via ce plan comme un caractère dans dark souls , et l'instance c'est le perso que je voie à l'écran
