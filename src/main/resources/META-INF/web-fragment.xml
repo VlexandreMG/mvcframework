@@ -18,6 +18,10 @@
         <url-pattern>/ctl/*</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>com.monframework.listener.AppContextListener</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>FrontServlet</servlet-name>
         <servlet-class>com.monframework.core.FrontServlet</servlet-class>
