@@ -17,7 +17,7 @@ public class AppContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sc) {
         ServletContext context = sc.getServletContext();
-        String packageName = context.getInitParameter("com.monapp.controller");
+        String packageName = context.getInitParameter("package-a-scanner");
         HashMap<UrlMapping, Mapping> mapping= new HashMap<>();
 
         try {
