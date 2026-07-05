@@ -18,6 +18,15 @@
         <url-pattern>/ctl/*</url-pattern>
     </servlet-mapping>
 
+    <context-param>
+        <param-name>package-a-scanner</param-name>
+        <param-value>com.monapp.controller</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>com.monframework.listener.AppContextListener</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>FrontServlet</servlet-name>
         <servlet-class>com.monframework.core.FrontServlet</servlet-class>

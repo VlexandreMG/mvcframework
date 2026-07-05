@@ -13,14 +13,19 @@ import java.util.Map;
 import java.lang.reflect.Method;
 import com.monframework.core.Mapping;
 import com.monframework.core.UrlMapping;
+import java.util.HashMap;
+
+
 
 public class FrontServletController extends HttpServlet {
 
     List<Class<?>> touteslesClasses = new ArrayList<>();
+    private HashMap<UrlMapping , Mapping> mapping;
 
     @Override
     public void init() throws ServletException {
-        touteslesClasses = Utilitaire.getClassesWithAnnotation("com.monapp.controller");
+        // touteslesClasses = Utilitaire.getClassesWithAnnotation("com.monapp.controller");
+        this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
         
     }
 
@@ -40,22 +45,19 @@ public class FrontServletController extends HttpServlet {
         
         boolean trouvee = false;
 
-        if (touteslesClasses != null && !touteslesClasses.isEmpty()) {
-            for (Class<?> class1 : touteslesClasses) {
+        if (this.mapping != null && !this.mapping.isEmpty()) {
+            
 
-                System.out.println("La classe " + class1 + "<br>");
+                // System.out.println("La classe " + class1 + "<br>");
                 
-                Map<UrlMapping, Mapping> link = Utilitaire.createMapping(class1);
-
-                // On affiche les clés trouvées dans CETTE classe spécifique
-                System.out.println("   -> Clés trouvées dans " + class1.getSimpleName() + " : " + link.keySet());
+                // Map<UrlMapping, Mapping> link = Utilitaire.createMapping(class1);
                 
                 UrlMapping urlRecherche = new UrlMapping(urlContenu , typeRequete);
 
-                if (link.containsKey(urlRecherche)) {
+                if (this.mapping.containsKey(urlRecherche)) {
                     
-                    Mapping mapp = link.get(urlRecherche);
-                    System.out.println("Clés disponibles dans la Map : " + link.keySet());
+                    Mapping mapp = this.mapping.get(urlRecherche);
+                    // System.out.println("Clés disponibles dans la Map : " + link.keySet());
 
                     out.println("Nom de la fonction : "+ mapp.getMethode().getName() + " || " + " Nom de la classe : " + mapp.getClassName().getName() + " || " + " Lien tapé : " + urlContenu + " || " + " Méthode de ce lien : " + typeRequete + "<br>");
                     trouvee = true;
@@ -76,9 +78,8 @@ public class FrontServletController extends HttpServlet {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    break;
                 }
-            }
+            
             if (!trouvee) {
                 out.println("HSeeeee Il n'y a pas de fonction associé à cette Url. <br>");
                 // for (Class<?> class1 : touteslesClasses) {
