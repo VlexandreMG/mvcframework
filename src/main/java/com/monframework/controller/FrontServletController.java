@@ -13,14 +13,19 @@ import java.util.Map;
 import java.lang.reflect.Method;
 import com.monframework.core.Mapping;
 import com.monframework.core.UrlMapping;
+import java.util.HashMap;
+
+
 
 public class FrontServletController extends HttpServlet {
 
     List<Class<?>> touteslesClasses = new ArrayList<>();
+    private HashMap<UrlMapping , Mapping> mapping;
 
     @Override
     public void init() throws ServletException {
-        touteslesClasses = Utilitaire.getClassesWithAnnotation("com.monapp.controller");
+        // touteslesClasses = Utilitaire.getClassesWithAnnotation("com.monapp.controller");
+        this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
         
     }
 
