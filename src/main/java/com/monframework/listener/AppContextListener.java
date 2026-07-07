@@ -25,6 +25,16 @@ public class AppContextListener implements ServletContextListener {
 
             for (Class<?> class1 : classes) {
                 Map<UrlMapping, Mapping> tableRoutageClasse = Utilitaire.createMapping(class1);
+                for (Map.Entry<UrlMapping, Mapping> entry : tableRoutageClasse.entrySet()) {
+                    UrlMapping urlMapping = entry.getKey();
+                    Mapping mapping2 = entry.getValue();
+
+                    if (mapping.containsKey(urlMapping)) {
+                        System.out.println("Cette url est déja dispo.");
+                    } else {
+                        mapping.put(urlMapping,mapping2);
+                    }
+                }
                 mapping.putAll(tableRoutageClasse);
             }
         } catch (Exception e) {
