@@ -18,6 +18,9 @@ public class AppContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sc) {
         ServletContext context = sc.getServletContext();
         String packageName = context.getInitParameter("package-a-scanner");
+        if (packageName == null) {
+            packageName = "com.monapp.controller";
+        }
         HashMap<UrlMapping, Mapping> mapping= new HashMap<>();
 
         try {
@@ -37,7 +40,8 @@ public class AppContextListener implements ServletContextListener {
                 }
             }
         } catch (Exception e) {
-            throw new RuntimeException("Une erreur sprint4", e);
+            System.out.println("[ERROR SPRINT 4] Erreur lors du scan : " + e.getMessage());
+            e.printStackTrace();
         }
 
         context.setAttribute("mapping", mapping);
