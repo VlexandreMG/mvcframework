@@ -35,7 +35,6 @@ public class AppContextListener implements ServletContextListener {
                         mapping.put(urlMapping,mapping2);
                     }
                 }
-                mapping.putAll(tableRoutageClasse);
             }
         } catch (Exception e) {
             throw new RuntimeException("Une erreur sprint4", e);
