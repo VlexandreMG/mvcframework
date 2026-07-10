@@ -56,54 +56,45 @@ public class FrontServletController extends HttpServlet {
             UrlMapping urlRecherche = new UrlMapping(urlContenu, typeRequete);
 
             if (this.mapping.containsKey(urlRecherche)) {
-
                 Mapping mapp = this.mapping.get(urlRecherche);
-                // System.out.println("Clés disponibles dans la Map : " + link.keySet());
-
-                // out.println("Nom de la fonction : " + mapp.getMethode().getName() + " || " + " Nom de la classe : "
-                //         + mapp.getClassName().getName() + " || " + " Lien tapé : " + urlContenu + " || "
-                //         + " Méthode de ce lien : " + typeRequete + "<br>");
+                trouvee = true; // On a trouvé la route !
 
                 try {
-                    // Chargena le class
                     Class<?> testController = Class.forName(mapp.getClassName().getName());
-                    // Micréer instance
                     Object objetTestController = testController.getConstructor().newInstance();
-                    // MiGet fonction rehetra
                     Method methodController = mapp.getMethode();
-                    // Mi_execute anle fonction
+
+                    // On exécute la fonction (elle renvoie "page.jsp")
                     Object resultat = methodController.invoke(objetTestController);
 
                     if (resultat != null) {
-                        String pageJsp = resultat.toString();
+                        String pageJsp = resultat.toString(); // "page.jsp"
 
+                        // --- TON BLOC SPRINT 5 (Récupération du ModelAndView et setAttribute) ---
                         try {
                             Method getMvMethod = testController.getMethod("getMv");
+                            Object modelAndViewObjet = getMvMethod.invoke(objetTestController);
 
-                            Object modelAndViewObject = getMvMethod.invoke(objetTestController);
+                            if (modelAndViewObjet != null) {
+                                Method getDataMethod = modelAndViewObjet.getClass().getMethod("getData");
+                                java.util.HashMap<String, Object> données = (java.util.HashMap<String, Object>) getDataMethod
+                                        .invoke(modelAndViewObjet);
 
-                            if (modelAndViewObject != null) {
-                                Method getDataMethod = modelAndViewObject.getClass().getMethod("getData");
-                                HashMap<String, Object> donnees = (HashMap<String, Object>) getDataMethod
-                                        .invoke(getDataMethod);
-
-                                for (Map.Entry<String, Object> entry : donnees.entrySet()) {
+                                for (java.util.Map.Entry<String, Object> entry : données.entrySet()) {
                                     request.setAttribute(entry.getKey(), entry.getValue());
-                                    System.out.println("Sprint 5 : " + entry.getKey() + " ==> " + entry.getValue());
                                 }
                             }
-
                         } catch (NoSuchMethodException e) {
-                            System.out.println("Aucun modelAndView dans ce Controller");
-                            ;
+                            System.out.println("[SPRINT 4] Pas de ModelAndView.");
                         }
+                        // --- FIN BLOC SPRINT 5 ---
+
+                        // ON SUPPRIME le out.println(resultat.toString()) ET ON FAIT LE VRAI FORWARD :
                         request.getRequestDispatcher("/" + pageJsp).forward(request, response);
-                        trouvee = true;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
             if (!trouvee) {
