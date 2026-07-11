@@ -1,6 +1,7 @@
 com/monframework/listener/AppContextListener.class
 com/monframework/controller/Annotation.class
 com/monframework/App.class
+com/monframework/model/ModelAndView.class
 com/monframework/core/FrontServlet.class
 com/monframework/annotation/Controller.class
 com/monframework/core/Mapping.class
