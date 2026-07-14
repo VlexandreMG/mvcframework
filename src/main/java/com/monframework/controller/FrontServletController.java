@@ -13,20 +13,22 @@ import java.util.Map;
 import java.lang.reflect.Method;
 import com.monframework.core.Mapping;
 import com.monframework.core.UrlMapping;
+import com.monframework.model.ModelAndView;
+
 import java.util.HashMap;
-
-
+import java.util.Map;
 
 public class FrontServletController extends HttpServlet {
 
     List<Class<?>> touteslesClasses = new ArrayList<>();
-    private HashMap<UrlMapping , Mapping> mapping;
+    private HashMap<UrlMapping, Mapping> mapping;
 
     @Override
     public void init() throws ServletException {
-        // touteslesClasses = Utilitaire.getClassesWithAnnotation("com.monapp.controller");
+        // touteslesClasses =
+        // Utilitaire.getClassesWithAnnotation("com.monapp.controller");
         this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
-        
+
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -42,53 +44,69 @@ public class FrontServletController extends HttpServlet {
         System.out.println("Recherche de : " + urlContenu + " en " + typeRequete);
         // Condition de cette requête
         //
-        
+
         boolean trouvee = false;
 
         if (this.mapping != null && !this.mapping.isEmpty()) {
-            
 
-                // System.out.println("La classe " + class1 + "<br>");
-                
-                // Map<UrlMapping, Mapping> link = Utilitaire.createMapping(class1);
-                
-                UrlMapping urlRecherche = new UrlMapping(urlContenu , typeRequete);
+            // System.out.println("La classe " + class1 + "<br>");
 
-                if (this.mapping.containsKey(urlRecherche)) {
-                    
-                    Mapping mapp = this.mapping.get(urlRecherche);
-                    // System.out.println("Clés disponibles dans la Map : " + link.keySet());
+            // Map<UrlMapping, Mapping> link = Utilitaire.createMapping(class1);
 
-                    out.println("Nom de la fonction : "+ mapp.getMethode().getName() + " || " + " Nom de la classe : " + mapp.getClassName().getName() + " || " + " Lien tapé : " + urlContenu + " || " + " Méthode de ce lien : " + typeRequete + "<br>");
-                    trouvee = true;
-                    
-                    try {
-                        // Chargena le class
-                        Class<?> testController = Class.forName(mapp.getClassName().getName());
-                        //Micréer instance
-                        Object objetTestController = testController.getConstructor().newInstance();
-                        //MiGet fonction rehetra 
-                        Method methodController = mapp.getMethode();
-                        //Mi_execute anle fonction 
-                        Object resultat = methodController.invoke(objetTestController);
-                        
-                        if (resultat != null) {
-                            out.println(resultat.toString());
+            UrlMapping urlRecherche = new UrlMapping(urlContenu, typeRequete);
+
+            if (this.mapping.containsKey(urlRecherche)) {
+                Mapping mapp = this.mapping.get(urlRecherche);
+                trouvee = true; // On a trouvé la route !
+
+                try {
+                    Class<?> testController = Class.forName(mapp.getClassName().getName());
+                    Object objetTestController = testController.getConstructor().newInstance();
+                    Method methodController = mapp.getMethode();
+
+                    // On exécute la fonction (elle renvoie "page.jsp")
+                    Object resultat = methodController.invoke(objetTestController);
+
+                    if (resultat != null) {
+                        String pageJsp = resultat.toString(); // "page.jsp"
+
+                        // --- TON BLOC SPRINT 5 (Récupération du ModelAndView et setAttribute) ---
+                        try {
+                            Method getMvMethod = testController.getMethod("getMv");
+                            Object modelAndViewObjet = getMvMethod.invoke(objetTestController);
+
+                            if (modelAndViewObjet != null) {
+                                Method getDataMethod = modelAndViewObjet.getClass().getMethod("getData");
+                                java.util.HashMap<String, Object> données = (java.util.HashMap<String, Object>) getDataMethod
+                                        .invoke(modelAndViewObjet);
+
+                                for (java.util.Map.Entry<String, Object> entry : données.entrySet()) {
+                                    request.setAttribute(entry.getKey(), entry.getValue());
+                                }
+                            }
+                        } catch (NoSuchMethodException e) {
+                            System.out.println("[SPRINT 4] Pas de ModelAndView.");
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        // --- FIN BLOC SPRINT 5 ---
+
+                        // ON SUPPRIME le out.println(resultat.toString()) ET ON FAIT LE VRAI FORWARD :
+                        request.getRequestDispatcher("/" + pageJsp).forward(request, response);
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            
+            }
+
             if (!trouvee) {
-                out.println("HSeeeee Il n'y a pas de fonction associé à cette Url. <br>");
+                // out.println("HSeeeee Il n'y a pas de fonction associé à cette Url. <br>");
                 // for (Class<?> class1 : touteslesClasses) {
-                //     Map<String, Mapping> lien = Utilitaire.createMapping(class1);
-                //     for (Map.Entry<String,Mapping> ln : lien.entrySet()) {
-                //         String url = ln.getKey();
-                //         Mapping map = ln.getValue();
-                //         out.println("Nom de la fonction : "+ map.getMethode().getName() + " || " + " Url correspondant : " + url + "<br>");
-                //     }
+                // Map<String, Mapping> lien = Utilitaire.createMapping(class1);
+                // for (Map.Entry<String,Mapping> ln : lien.entrySet()) {
+                // String url = ln.getKey();
+                // Mapping map = ln.getValue();
+                // out.println("Nom de la fonction : "+ map.getMethode().getName() + " || " + "
+                // Url correspondant : " + url + "<br>");
+                // }
                 // }
             }
         } else {
