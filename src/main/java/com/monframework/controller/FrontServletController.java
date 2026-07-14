@@ -76,7 +76,7 @@ public class FrontServletController extends HttpServlet {
 
                                 Object instanceService = typeAttribut.getDeclaredConstructor().newInstance();
 
-                                field.setAccessible(false);
+                                field.setAccessible(true);
 
                                 field.set(objetTestController, instanceService);
 
