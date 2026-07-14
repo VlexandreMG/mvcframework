@@ -10,10 +10,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import com.monframework.core.Mapping;
 import com.monframework.core.UrlMapping;
 import com.monframework.model.ModelAndView;
+import com.monframework.annotation.Inject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +65,27 @@ public class FrontServletController extends HttpServlet {
                     Class<?> testController = Class.forName(mapp.getClassName().getName());
                     Object objetTestController = testController.getConstructor().newInstance();
                     Method methodController = mapp.getMethode();
+
+                    // Partie sprint5-Bis
+                    try {
+                        Field[] listeAttribut = objetTestController.getClass().getDeclaredFields();
+
+                        for (Field field : listeAttribut) {
+                            if (field.isAnnotationPresent(Inject.class)) {
+                                Class<?> typeAttribut = field.getType();
+
+                                Object instanceService = typeAttribut.getDeclaredConstructor().newInstance();
+
+                                field.setAccessible(false);
+
+                                field.set(objetTestController, instanceService);
+
+                                System.out.println("MyService fut injecté");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                     // On exécute la fonction (elle renvoie "page.jsp")
                     Object resultat = methodController.invoke(objetTestController);
