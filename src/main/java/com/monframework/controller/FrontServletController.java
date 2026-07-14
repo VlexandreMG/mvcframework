@@ -17,7 +17,7 @@ import com.monframework.core.UrlMapping;
 import com.monframework.model.ModelAndView;
 import com.monframework.annotation.Inject;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import java.util.HashMap;
@@ -77,26 +77,17 @@ public class FrontServletController extends HttpServlet {
                             if (field.isAnnotationPresent(Inject.class)) {
                                 Class<?> typeAttribut = field.getType();
 
-                                // 1. Spring stocke son contexte dans un attribut du ServletContext sous une clé
-                                // spécifique
-                                String attrSpring = "org.springframework.web.context.WebApplicationContext.ROOT";
-                                org.springframework.web.context.WebApplicationContext springContext = (org.springframework.web.context.WebApplicationContext) request
-                                        .getServletContext().getAttribute(attrSpring);
+                                // Avec Spring 6, getRequiredWebApplicationContext accepte parfaitement ton
+                                // jakarta.servlet.ServletContext !
+                                org.springframework.web.context.WebApplicationContext springContext = org.springframework.web.context.support.WebApplicationContextUtils
+                                        .getRequiredWebApplicationContext(request.getServletContext());
 
-                                // 2. Petite sécurité au cas où Spring n'aurait pas démarré
-                                if (springContext == null) {
-                                    throw new IllegalStateException(
-                                            "Le contexte Spring n'a pas pu être récupéré depuis le ServletContext !");
-                                }
-
-                                // 3. Tu récupères ton bean normalement
                                 Object instanceService = springContext.getBean(typeAttribut);
 
                                 field.setAccessible(true);
-
                                 field.set(objetTestController, instanceService);
 
-                                System.out.println("MyService fut injecté");
+                                System.out.println("[SPRING-IOC] Injection réussie avec Spring 6 !");
                             }
                         }
                     } catch (Exception e) {
