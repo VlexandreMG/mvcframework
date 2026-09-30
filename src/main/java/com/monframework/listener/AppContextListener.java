@@ -12,11 +12,23 @@ import com.monframework.core.Mapping;
 import com.monframework.controller.Utilitaire;
 import jakarta.servlet.ServletContext;
 
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.context.ApplicationContext;
+
 public class AppContextListener implements ServletContextListener {
     
     @Override
     public void contextInitialized(ServletContextEvent sc) {
         ServletContext context = sc.getServletContext();
+
+        // Conteneur de Spring lié au ServletContext 
+        ApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(context);
+
+        if (springContext != null) {
+            context.setAttribute("springContext", springContext);
+        }
+
+
         String packageName = context.getInitParameter("package-a-scanner");
         if (packageName == null) {
             packageName = "com.monapp.controller";
