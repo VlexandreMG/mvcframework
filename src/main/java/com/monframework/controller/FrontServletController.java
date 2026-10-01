@@ -31,6 +31,7 @@ public class FrontServletController extends HttpServlet {
         // touteslesClasses =
         // Utilitaire.getClassesWithAnnotation("com.monapp.controller");
      //86599798957//   this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
+        annotationRest = (String) getServletContext().getAttribute("annotationRest");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -70,6 +71,18 @@ public class FrontServletController extends HttpServlet {
                     Object resultat = methodController.invoke(objetTestController);
 
                     if (resultat != null) {
+                        // Drapeau pour voir les rest 
+                        boolean estRest = false;
+
+                        if (annotationRest != null && !annotationRest.isEmpty()) {
+                            // Charger la classe 
+                            Class<? extends Annotation> restClass = (Class<? extends Annotation>) Class.forName(annotationRest);
+
+                            // Verifier s'il possède l'annotation 
+                            if (methodController.isAnnotationPresent(restClass)) {
+                                estRest = true;
+                            }
+                        }
                         String pageJsp = resultat.toString(); // "page.jsp"
 
                         // --- TON BLOC SPRINT 5 (Récupération du ModelAndView et setAttribute) ---
