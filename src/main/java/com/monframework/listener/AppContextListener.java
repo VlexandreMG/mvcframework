@@ -6,6 +6,7 @@ import jakarta.servlet.ServletContextEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+import java.util.Properties;
 
 import com.monframework.core.UrlMapping;
 import com.monframework.core.Mapping;
@@ -17,12 +18,23 @@ import org.springframework.context.ApplicationContext;
 
 public class AppContextListener implements ServletContextListener {
     
+    String annotationRest;
+
     @Override
     public void contextInitialized(ServletContextEvent sc) {
         ServletContext context = sc.getServletContext();
 
         // Conteneur de Spring lié au ServletContext 
         ApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(context);
+
+        // Instanciation de la properties 
+        Properties prop = new Properties();
+
+        // Tsy aiko eh 
+        annotationRest = prop.getProperty("annotation.rest");
+
+        // Envoyer dans le servlet Context 
+        context.setAttribute("annotationRest", annotationRest);
 
         if (springContext != null) {
             context.setAttribute("springContext", springContext);
