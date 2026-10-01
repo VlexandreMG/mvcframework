@@ -15,6 +15,8 @@ import com.monframework.core.Mapping;
 import com.monframework.core.UrlMapping;
 import com.monframework.model.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.ApplicationContext;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,13 +24,13 @@ public class FrontServletController extends HttpServlet {
 
     List<Class<?>> touteslesClasses = new ArrayList<>();
     private HashMap<UrlMapping, Mapping> mapping;
+    String annotationRest;
 
     @Override
     public void init() throws ServletException {
         // touteslesClasses =
         // Utilitaire.getClassesWithAnnotation("com.monapp.controller");
-        this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
-
+     //86599798957//   this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
