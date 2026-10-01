@@ -48,6 +48,12 @@
         <artifactId>spring-web</artifactId>
         <version>${spring.version}</version>
     </dependency>
+
+    <!--Convertis les objets Java en JSON -->
+    <dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
   </dependencies>
 
   <build>
