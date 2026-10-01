@@ -83,6 +83,37 @@ public class FrontServletController extends HttpServlet {
                                 estRest = true;
                             }
                         }
+
+                        // JSON OU VUE 
+                        if (estRest) {
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+
+                            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+                            String jsonOutput = mapper.writeValueAsString(resultat);
+                            response.getWriter().write(jsonOutput);
+
+                        } else {
+                            String pageJsp = resultat.toString(); // "page.jsp"
+
+                        // --- TON BLOC SPRINT 5 (Récupération du ModelAndView et setAttribute) ---
+                        try {
+                            Method getMvMethod = testController.getMethod("getMv");
+                            Object modelAndViewObjet = getMvMethod.invoke(objetTestController);
+
+                            if (modelAndViewObjet != null) {
+                                Method getDataMethod = modelAndViewObjet.getClass().getMethod("getData");
+                                java.util.HashMap<String, Object> données = (java.util.HashMap<String, Object>) getDataMethod
+                                        .invoke(modelAndViewObjet);
+
+                                for (java.util.Map.Entry<String, Object> entry : données.entrySet()) {
+                                    request.setAttribute(entry.getKey(), entry.getValue());
+                                }
+                            }
+                        } catch (NoSuchMethodException e) {
+                            System.out.println("[SPRINT 4] Pas de ModelAndView.");
+                        }    
+                        }
                         String pageJsp = resultat.toString(); // "page.jsp"
 
                         // --- TON BLOC SPRINT 5 (Récupération du ModelAndView et setAttribute) ---
