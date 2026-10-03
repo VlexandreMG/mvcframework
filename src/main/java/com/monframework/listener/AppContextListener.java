@@ -43,7 +43,7 @@ public class AppContextListener implements ServletContextListener {
 
         String packageName = context.getInitParameter("package-a-scanner");
         if (packageName == null) {
-            packageName = "com.monapp.controller";
+            packageName = "com.testapp.controller";
         }
         HashMap<UrlMapping, Mapping> mapping= new HashMap<>();
 
