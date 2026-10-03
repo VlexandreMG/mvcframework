@@ -30,7 +30,7 @@ public class FrontServletController extends HttpServlet {
     public void init() throws ServletException {
         // touteslesClasses =
         // Utilitaire.getClassesWithAnnotation("com.monapp.controller");
-     //86599798957//   this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
+        this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
         annotationRest = (String) getServletContext().getAttribute("annotationRest");
     }
 
@@ -92,8 +92,9 @@ public class FrontServletController extends HttpServlet {
                             com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
                             String jsonOutput = mapper.writeValueAsString(resultat);
                             response.getWriter().write(jsonOutput);
+                            return;
 
-                        } else {
+                        } 
                             String pageJsp = resultat.toString(); // "page.jsp"
 
                         // --- TON BLOC SPRINT 5 (Récupération du ModelAndView et setAttribute) ---
