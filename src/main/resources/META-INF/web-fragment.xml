@@ -20,7 +20,7 @@
 
     <context-param>
         <param-name>package-a-scanner</param-name>
-        <param-value>com.monapp.controller</param-value>
+        <param-value>com.testapp.controller</param-value>
     </context-param>
 
     <listener>
