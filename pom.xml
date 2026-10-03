@@ -72,31 +72,26 @@
       </plugin>
 
       <!-- Copie automatique du JAR généré vers WEB-INF/lib de monapp -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>3.3.1</version>
-        <executions>
-          <execution>
-            <id>copy-jar-to-app</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>/home/balou/S4/WebDy/Projet/monapp/WEB-INF/lib</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.build.directory}</directory>
-                  <includes>
-                    <include>${project.build.finalName}.jar</include>
-                  </includes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+     <plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-dependency-plugin</artifactId>
+  <version>3.6.1</version>
+  <executions>
+    <execution>
+      <id>copy-dependencies</id>
+      <phase>package</phase>
+      <goals>
+        <goal>copy-dependencies</goal>
+      </goals>
+      <configuration>
+        <!-- Dossier de destination WEB-INF/lib de ton application de test -->
+        <outputDirectory>/home/balou/S5/MrNaina/FrameWork/monapp/src/main/webapp/WEB-INF/lib</outputDirectory>
+        <!-- On exclut jakarta.servlet-api car il est déjà fourni par Tomcat -->
+        <excludeScopes>provided</excludeScopes>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
     </plugins>
   </build>
 
