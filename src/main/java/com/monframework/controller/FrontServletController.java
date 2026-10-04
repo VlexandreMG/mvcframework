@@ -114,8 +114,8 @@ public class FrontServletController extends HttpServlet {
                         } catch (NoSuchMethodException e) {
                             System.out.println("[SPRINT 4] Pas de ModelAndView.");
                         }    
-                        }
-                        String pageJsp = resultat.toString(); // "page.jsp"
+                        
+                         // "page.jsp"
 
                         // --- TON BLOC SPRINT 5 (Récupération du ModelAndView et setAttribute) ---
                         try {
