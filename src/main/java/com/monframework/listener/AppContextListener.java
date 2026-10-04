@@ -6,52 +6,20 @@ import jakarta.servlet.ServletContextEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import java.util.Properties;
 
 import com.monframework.core.UrlMapping;
 import com.monframework.core.Mapping;
 import com.monframework.controller.Utilitaire;
 import jakarta.servlet.ServletContext;
 
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.context.ApplicationContext;
-
 public class AppContextListener implements ServletContextListener {
     
-    String annotationRest;
-
     @Override
     public void contextInitialized(ServletContextEvent sc) {
         ServletContext context = sc.getServletContext();
-
-        // Conteneur de Spring lié au ServletContext 
-        ApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(context);
-
-        // Instanciation de la properties 
-        Properties prop = new Properties();
-
-        // Tsy aiko eh 
-        try (java.io.InputStream in = Thread.currentThread().getContextClassLoader()
-            .getResourceAsStream("config.properties")) {
-        if (in != null) {
-            prop.load(in);
-        }
-        } catch (java.io.IOException e) {
-        e.printStackTrace();
-        }
-        annotationRest = prop.getProperty("annotation.rest", "com.monframework.annotation.Rest").trim();
-
-        // Envoyer dans le servlet Context 
-        context.setAttribute("annotationRest", annotationRest);
-
-        if (springContext != null) {
-            context.setAttribute("springContext", springContext);
-        }
-
-
         String packageName = context.getInitParameter("package-a-scanner");
         if (packageName == null) {
-            packageName = "com.testapp.controller";
+            packageName = "com.monapp.controller";
         }
         HashMap<UrlMapping, Mapping> mapping= new HashMap<>();
 
