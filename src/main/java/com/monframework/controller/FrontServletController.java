@@ -15,6 +15,8 @@ import com.monframework.core.Mapping;
 import com.monframework.core.UrlMapping;
 import com.monframework.model.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.ApplicationContext;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,13 +24,14 @@ public class FrontServletController extends HttpServlet {
 
     List<Class<?>> touteslesClasses = new ArrayList<>();
     private HashMap<UrlMapping, Mapping> mapping;
+    String annotationRest;
 
     @Override
     public void init() throws ServletException {
         // touteslesClasses =
         // Utilitaire.getClassesWithAnnotation("com.monapp.controller");
         this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
-
+        annotationRest = (String) getServletContext().getAttribute("annotationRest");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -39,7 +42,7 @@ public class FrontServletController extends HttpServlet {
 
         //
         // Prends la requête de l'utilsateur
-        String urlContenu = request.getPathInfo();
+        String urlContenu = request.getPathInfo() != null ? request.getPathInfo() : request.getServletPath();
         String typeRequete = request.getMethod();
         System.out.println("Recherche de : " + urlContenu + " en " + typeRequete);
         // Condition de cette requête
@@ -68,7 +71,51 @@ public class FrontServletController extends HttpServlet {
                     Object resultat = methodController.invoke(objetTestController);
 
                     if (resultat != null) {
-                        String pageJsp = resultat.toString(); // "page.jsp"
+                        // Drapeau pour voir les rest 
+                        boolean estRest = false;
+
+                        if (annotationRest != null && !annotationRest.isEmpty()) {
+                            // Charger la classe 
+                            Class<? extends Annotation> restClass = (Class<? extends Annotation>) Class.forName(annotationRest);
+
+                            // Verifier s'il possède l'annotation 
+                            if (methodController.isAnnotationPresent(restClass)) {
+                                estRest = true;
+                            }
+                        }
+
+                        // JSON OU VUE 
+                        if (estRest) {
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+
+                            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+                            String jsonOutput = mapper.writeValueAsString(resultat);
+                            response.getWriter().write(jsonOutput);
+                            return;
+
+                        } 
+                            String pageJsp = resultat.toString(); // "page.jsp"
+
+                        // --- TON BLOC SPRINT 5 (Récupération du ModelAndView et setAttribute) ---
+                        try {
+                            Method getMvMethod = testController.getMethod("getMv");
+                            Object modelAndViewObjet = getMvMethod.invoke(objetTestController);
+
+                            if (modelAndViewObjet != null) {
+                                Method getDataMethod = modelAndViewObjet.getClass().getMethod("getData");
+                                java.util.HashMap<String, Object> données = (java.util.HashMap<String, Object>) getDataMethod
+                                        .invoke(modelAndViewObjet);
+
+                                for (java.util.Map.Entry<String, Object> entry : données.entrySet()) {
+                                    request.setAttribute(entry.getKey(), entry.getValue());
+                                }
+                            }
+                        } catch (NoSuchMethodException e) {
+                            System.out.println("[SPRINT 4] Pas de ModelAndView.");
+                        }    
+                        
+                         // "page.jsp"
 
                         // --- TON BLOC SPRINT 5 (Récupération du ModelAndView et setAttribute) ---
                         try {
@@ -93,7 +140,9 @@ public class FrontServletController extends HttpServlet {
                         request.getRequestDispatcher("/" + pageJsp).forward(request, response);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    if (!response.isCommitted()) {
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
+                    }
                 }
             }
 
@@ -108,6 +157,7 @@ public class FrontServletController extends HttpServlet {
                 // Url correspondant : " + url + "<br>");
                 // }
                 // }
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Aucune route pour " + typeRequete + " " + urlContenu);
             }
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
