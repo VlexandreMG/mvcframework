@@ -31,7 +31,15 @@ public class AppContextListener implements ServletContextListener {
         Properties prop = new Properties();
 
         // Tsy aiko eh 
-        annotationRest = prop.getProperty("annotation.rest");
+        try (java.io.InputStream in = Thread.currentThread().getContextClassLoader()
+            .getResourceAsStream("config.properties")) {
+        if (in != null) {
+            prop.load(in);
+        }
+        } catch (java.io.IOException e) {
+        e.printStackTrace();
+        }
+        annotationRest = prop.getProperty("annotation.rest", "com.monframework.annotation.Rest").trim();
 
         // Envoyer dans le servlet Context 
         context.setAttribute("annotationRest", annotationRest);

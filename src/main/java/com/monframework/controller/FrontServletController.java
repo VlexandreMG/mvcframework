@@ -42,7 +42,7 @@ public class FrontServletController extends HttpServlet {
 
         //
         // Prends la requête de l'utilsateur
-        String urlContenu = request.getPathInfo();
+        String urlContenu = request.getPathInfo() != null ? request.getPathInfo() : request.getServletPath();
         String typeRequete = request.getMethod();
         System.out.println("Recherche de : " + urlContenu + " en " + typeRequete);
         // Condition de cette requête
@@ -140,7 +140,9 @@ public class FrontServletController extends HttpServlet {
                         request.getRequestDispatcher("/" + pageJsp).forward(request, response);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    if (!response.isCommitted()) {
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
+                    }
                 }
             }
 
@@ -155,6 +157,7 @@ public class FrontServletController extends HttpServlet {
                 // Url correspondant : " + url + "<br>");
                 // }
                 // }
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Aucune route pour " + typeRequete + " " + urlContenu);
             }
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
