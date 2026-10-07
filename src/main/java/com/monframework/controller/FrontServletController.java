@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.ApplicationContext;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.reflect.Parameter;
 
 public class FrontServletController extends HttpServlet {
 
@@ -67,17 +68,7 @@ public class FrontServletController extends HttpServlet {
                     Object objetTestController = testController.getConstructor().newInstance();
                     Method methodController = mapp.getMethode();
 
-                    // Inspecter method.getParameterTypes();
-                    Class<?>[] paramTypes = methodController.getParameterTypes();
-
-                    Object result;
-                    if (paramTypes.length == 0) {
-                        result = methodController.invoke(objetTestController);
-                    } else if (paramTypes.length == 1 && paramTypes[0] == HttpServletRequest.class ) {
-                        result = methodController.invoke(objetTestController, request);
-                    } else {
-                        throw new RuntimeException("Signature non reconnue :"+ methodController.getName());
-                    }
+                    // 
 
                     // On exécute la fonction (elle renvoie "page.jsp")
                     Object resultat = methodController.invoke(objetTestController);
