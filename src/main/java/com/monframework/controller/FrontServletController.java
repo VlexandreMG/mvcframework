@@ -72,7 +72,7 @@ public class FrontServletController extends HttpServlet {
                     Parameter[] listeParam = methodController.getParameters();
 
                     // Tableau d'objet dont la taille est listeParam 
-                    Object[] value = new Object[listeParam.length];
+                    Object[] arg = new Object[listeParam.length];
 
                     // Parcourir tous les paramètres 
                     for (int i = 0 ; i < listeParam.length ; i++) {
@@ -83,7 +83,9 @@ public class FrontServletController extends HttpServlet {
                             // Prend le type du paramètre
                         Class<?> type = listeParam[i].getType();
 
-                        
+                        // Vériefie si le type attendue est de type String pour l'instant 
+                        if (type == String.class) arg[i] = valeur;
+
                     }
 
                     // On exécute la fonction (elle renvoie "page.jsp")
