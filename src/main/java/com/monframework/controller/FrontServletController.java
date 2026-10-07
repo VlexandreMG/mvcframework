@@ -85,8 +85,9 @@ public class FrontServletController extends HttpServlet {
 
                         // Vériefie si le type attendue est de type String pour l'instant 
                         if (type == String.class) arg[i] = valeur;
-                    }
 
+                        System.out.println(arg[i]+"\n");
+                    }
 
                     // On exécute la fonction (elle renvoie "page.jsp")
                     Object resultat = methodController.invoke(objetTestController, arg);
