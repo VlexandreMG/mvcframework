@@ -25,6 +25,8 @@ public class FrontServletController extends HttpServlet {
     List<Class<?>> touteslesClasses = new ArrayList<>();
     private HashMap<UrlMapping, Mapping> mapping;
     String annotationRest;
+    HttpServletRequest res;
+    HttpServletResponse rep;
 
     @Override
     public void init() throws ServletException {
@@ -66,6 +68,18 @@ public class FrontServletController extends HttpServlet {
                     Class<?> testController = Class.forName(mapp.getClassName().getName());
                     Object objetTestController = testController.getConstructor().newInstance();
                     Method methodController = mapp.getMethode();
+
+                    // Inspecter method.getParameterTypes();
+                    Class<?>[] paramTypes = methodController.getParameterTypes();
+
+                    Object result;
+                    if (paramTypes.length == 0) {
+                        result = methodController.invoke(objetTestController);
+                    } else if (paramTypes.length == 1 && paramTypes[0] == HttpServletRequest.class ) {
+                        result = methodController.invoke(objetTestController, request);
+                    } else {
+                        throw new RuntimeException("Signature non reconnue :"+ methodController.getName());
+                    }
 
                     // On exécute la fonction (elle renvoie "page.jsp")
                     Object resultat = methodController.invoke(objetTestController);
