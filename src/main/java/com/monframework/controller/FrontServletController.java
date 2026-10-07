@@ -25,8 +25,6 @@ public class FrontServletController extends HttpServlet {
     List<Class<?>> touteslesClasses = new ArrayList<>();
     private HashMap<UrlMapping, Mapping> mapping;
     String annotationRest;
-    HttpServletRequest res;
-    HttpServletResponse rep;
 
     @Override
     public void init() throws ServletException {
