@@ -68,7 +68,11 @@ public class FrontServletController extends HttpServlet {
                     Object objetTestController = testController.getConstructor().newInstance();
                     Method methodController = mapp.getMethode();
 
-                    // 
+                    // Lister la liste des params
+                    Parameter[] listeParam = methodController.getParameter();
+
+                    // Tableau d'objet dont la taille est listeParam 
+                    Object[] valeur = new Object[listeParam.length];
 
                     // On exécute la fonction (elle renvoie "page.jsp")
                     Object resultat = methodController.invoke(objetTestController);
