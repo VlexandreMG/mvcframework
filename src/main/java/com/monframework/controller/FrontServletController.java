@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.ApplicationContext;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.reflect.Parameter;
 
 public class FrontServletController extends HttpServlet {
 
@@ -67,8 +68,30 @@ public class FrontServletController extends HttpServlet {
                     Object objetTestController = testController.getConstructor().newInstance();
                     Method methodController = mapp.getMethode();
 
+                    // Lister la liste des params
+                    Parameter[] listeParam = methodController.getParameters();
+
+                    // Tableau d'objet dont la taille est listeParam 
+                    Object[] arg = new Object[listeParam.length];
+
+                    // Parcourir tous les paramètres 
+                    for (int i = 0 ; i < listeParam.length ; i++) {
+                            // Prends le nom du parametre
+                        String nom = listeParam[i].getName();
+                            // Les associe au name dans l'input 
+                        String valeur = request.getParameter(nom);
+                            // Prend le type du paramètre
+                        Class<?> type = listeParam[i].getType();
+
+                        // Vériefie si le type attendue est de type String pour l'instant 
+                        // if (type == String.class) 
+                        arg[i] = valeur;
+
+                        // System.out.println(arg[i]+"\n");
+                    }
+
                     // On exécute la fonction (elle renvoie "page.jsp")
-                    Object resultat = methodController.invoke(objetTestController);
+                    Object resultat = methodController.invoke(objetTestController, arg);
 
                     if (resultat != null) {
                         // Drapeau pour voir les rest 
