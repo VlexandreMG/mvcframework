@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.monframework.AppTest" time="0.004" tests="1" errors="0" skipped="0" failures="0">
+<testsuite name="com.monframework.AppTest" time="0.006" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="jansi.mode" value="force"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -58,5 +58,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.endian" value="little"/>
   </properties>
-  <testcase name="shouldAnswerWithTrue" classname="com.monframework.AppTest" time="0.004"/>
+  <testcase name="shouldAnswerWithTrue" classname="com.monframework.AppTest" time="0.006"/>
 </testsuite>
