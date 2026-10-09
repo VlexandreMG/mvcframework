@@ -106,19 +106,28 @@ public class Utilitaire {
         for (Method mtd : method) {
             if (mtd.isAnnotationPresent(Controller.class) && Modifier.isPublic(mtd.getModifiers())) {
                 Controller annotation = mtd.getAnnotation(Controller.class);
-                String valeurAnnotation = annotation.value();
+                // // 
+                // String valeurAnnotation = annotation.value();
 
-                String url = "";
-                String methodHttp = "GET"; // Par défaut
+                // String url = "";
+                // String methodHttp = "GET"; // Par défaut
 
-                // On vérifie si l'utilisateur a mis une virgule pour séparer l'URL et la
-                // Méthode
-                if (valeurAnnotation.contains(",")) {
-                    String[] morceaux = valeurAnnotation.split(",");
-                    url = morceaux[0].trim(); // Récupère "/andrana" (sans espaces)
-                    methodHttp = morceaux[1].trim(); // Récupère "GET" (sans espaces)
-                } else {
-                    url = valeurAnnotation.trim();
+                // // On vérifie si l'utilisateur a mis une virgule pour séparer l'URL et la
+                // // Méthode
+                // if (valeurAnnotation.contains(",")) {
+                //     String[] morceaux = valeurAnnotation.split(",");
+                //     url = morceaux[0].trim(); // Récupère "/andrana" (sans espaces)
+                //     methodHttp = morceaux[1].trim(); // Récupère "GET" (sans espaces)
+                // } else {
+                //     url = valeurAnnotation.trim();
+                // }
+                // // 
+
+                String url = annotation.value().trim();
+                String methodHttp = annotation.method().trim().toUpperCase();
+
+                if (methodHttp.isEmpty()) {
+                    methodHttp = "GET";
                 }
 
                 UrlMapping urlMap = new UrlMapping();
