@@ -20,6 +20,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.Field;
 
 public class FrontServletController extends HttpServlet {
 
@@ -78,16 +79,37 @@ public class FrontServletController extends HttpServlet {
                     for (int i = 0 ; i < listeParam.length ; i++) {
                             // Prends le nom du parametre
                         String nom = listeParam[i].getName();
+
                             // Les associe au name dans l'input 
-                        String valeur = request.getParameter(nom);
+                        // String valeur = request.getParameter(nom);
+                        
                             // Prend le type du paramètre
                         Class<?> type = listeParam[i].getType();
 
                         // Vériefie si le type attendue est de type String pour l'instant 
                         // if (type == String.class) 
-                        arg[i] = valeur;
 
-                        // System.out.println(arg[i]+"\n");
+                        // Créé une instance vide 
+                        Object obj = type.getDeclaredConstructor().newInstance();
+
+                        // Parcourir les....j'en sais rien LOL 
+                        for (Field f : type.getDeclaredFields()) {
+                            // Prend la valuer dans la requête 
+                            String val = request.getParameter(f.getName());
+                            // null ve 
+                            if (val == null ) continue;
+
+                            // Rend accessible si en private 
+                            f.setAccessible(true);
+                            // Prend les types du field
+                            Class<?> ft = f.getType();
+                            // le set avec l'instance obj
+                            f.set(obj,val);
+                        }
+
+                        arg[i] = obj;
+                        
+                        System.out.println(arg[i]+"\n");
                     }
 
                     // On exécute la fonction (elle renvoie "page.jsp")
