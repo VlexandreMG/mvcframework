@@ -109,7 +109,7 @@ public class FrontServletController extends HttpServlet {
 
                         arg[i] = obj;
                         
-                        // System.out.println(arg[i]+"\n");
+                        System.out.println(arg[i]+"\n");
                     }
 
                     // On exécute la fonction (elle renvoie "page.jsp")
