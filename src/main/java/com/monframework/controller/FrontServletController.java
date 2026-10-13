@@ -78,14 +78,20 @@ public class FrontServletController extends HttpServlet {
                     for (int i = 0 ; i < listeParam.length ; i++) {
                             // Prends le nom du parametre
                         String nom = listeParam[i].getName();
+
                             // Les associe au name dans l'input 
-                        String valeur = request.getParameter(nom);
+                        // String valeur = request.getParameter(nom);
+                        
                             // Prend le type du paramètre
                         Class<?> type = listeParam[i].getType();
 
                         // Vériefie si le type attendue est de type String pour l'instant 
                         // if (type == String.class) 
-                        arg[i] = valeur;
+
+                        // Créé une instance vide 
+                        Object obj = type.getDeclaredConstructor().newInstance();
+
+                        // arg[i] = valeur;
                         
 
                         // System.out.println(arg[i]+"\n");
