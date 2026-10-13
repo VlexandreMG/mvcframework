@@ -94,12 +94,21 @@ public class FrontServletController extends HttpServlet {
 
                         // Parcourir les....j'en sais rien LOL 
                         for (Field f : type.getDeclaredFields()) {
-                            
+                            // Prend la valuer dans la requête 
+                            String val = request.getParameter(f.getName());
+                            // null ve 
+                            if (val == null ) continue;
+
+                            // Rend accessible si en private 
+                            f.setAccessible(true);
+                            // Prend les types du field
+                            Class<?> ft = f.getType();
+                            // le set avec l'instance obj
+                            f.set(obj,val);
                         }
 
-                        // arg[i] = valeur;
+                        arg[i] = obj;
                         
-
                         // System.out.println(arg[i]+"\n");
                     }
 
