@@ -20,6 +20,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.Field;
 
 public class FrontServletController extends HttpServlet {
 
@@ -90,6 +91,11 @@ public class FrontServletController extends HttpServlet {
 
                         // Créé une instance vide 
                         Object obj = type.getDeclaredConstructor().newInstance();
+
+                        // Parcourir les....j'en sais rien LOL 
+                        for (Field f : type.getDeclaredFields()) {
+                            
+                        }
 
                         // arg[i] = valeur;
                         
