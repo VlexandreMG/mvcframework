@@ -2,6 +2,7 @@ package com.monframework.controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.Part;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -95,7 +96,32 @@ public class FrontServletController extends HttpServlet {
                         Object obj = type.getDeclaredConstructor().newInstance();
 
                         if (type.getSimpleName().equals("Fichier")) {
-                            // Le workflow que tu m'a proposé 
+                            // Section fichier de la rqt mulitpart 
+                            Part part = request.getPart("fichier");
+
+                            // Nom du fichier 
+                            String submitted = part.getSubmittedFileName();
+
+                            // On met submitted dans nom pour perdre le nom 
+                            // même s'il n'a pas de point 
+                            String nomFichier = submitted;
+
+                            // On prépare l'extension 
+                            String extension = "";
+
+                            // Regarde si il y a un point dans le nom du fichier 
+                            int dot = submitted.lastIndexOf(".");
+
+                            // If "oui" y a un dot
+                            if (dot != -1) {
+                                nom = submitted.substring(0,dot);
+                                extension = submitted.substring(dot + 1);
+                            }
+
+                            // Prend tous les bits 
+                            byte[] contenu = part.getInputStream().readAllBytes();
+
+                            // Créeer l'instance de l'objet 
                         } else {
                             // Parcourir les....j'en sais rien LOL 
                             for (Field f : type.getDeclaredFields()) {
@@ -110,9 +136,9 @@ public class FrontServletController extends HttpServlet {
                             Class<?> ft = f.getType();
                             // le set avec l'instance obj
                             f.set(obj,val);
-                             }
+                            }
                         }
-                        
+
                         arg[i] = obj;
                         
                         // System.out.println(arg[i]+"\n");
