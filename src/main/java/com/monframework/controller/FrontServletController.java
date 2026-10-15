@@ -22,6 +22,7 @@ import java.util.Map;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Field;
 
+@MultipartConfig
 public class FrontServletController extends HttpServlet {
 
     List<Class<?>> touteslesClasses = new ArrayList<>();
