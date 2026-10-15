@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.annotation.MultipartConfig;
 
 import java.util.List;
 import java.io.IOException;
@@ -93,8 +94,11 @@ public class FrontServletController extends HttpServlet {
                         // Créé une instance vide 
                         Object obj = type.getDeclaredConstructor().newInstance();
 
-                        // Parcourir les....j'en sais rien LOL 
-                        for (Field f : type.getDeclaredFields()) {
+                        if (type.getSimpleName().equals("Fichier")) {
+                            // Le workflow que tu m'a proposé 
+                        } else {
+                            // Parcourir les....j'en sais rien LOL 
+                            for (Field f : type.getDeclaredFields()) {
                             // Prend la valuer dans la requête 
                             String val = request.getParameter(f.getName());
                             // null ve 
@@ -106,11 +110,12 @@ public class FrontServletController extends HttpServlet {
                             Class<?> ft = f.getType();
                             // le set avec l'instance obj
                             f.set(obj,val);
+                             }
                         }
-
+                        
                         arg[i] = obj;
                         
-                        System.out.println(arg[i]+"\n");
+                        // System.out.println(arg[i]+"\n");
                     }
 
                     // On exécute la fonction (elle renvoie "page.jsp")
