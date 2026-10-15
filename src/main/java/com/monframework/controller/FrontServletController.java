@@ -123,7 +123,7 @@ public class FrontServletController extends HttpServlet {
                             
                             // Set les attributs 
                             type.getMethod("setNom",String.class).invoke(obj,nomFichier);
-                            type.getMethod("setContenu",byte.class).invoke(obj,contenu);
+                            type.getMethod("setContenu",byte[].class).invoke(obj,contenu);
                             type.getMethod("setExtension",String.class).invoke(obj,extension);
                         } else {
                             // Parcourir les....j'en sais rien LOL 
