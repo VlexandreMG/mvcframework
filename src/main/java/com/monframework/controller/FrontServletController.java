@@ -114,14 +114,17 @@ public class FrontServletController extends HttpServlet {
 
                             // If "oui" y a un dot
                             if (dot != -1) {
-                                nom = submitted.substring(0,dot);
+                                nomFichier = submitted.substring(0,dot);
                                 extension = submitted.substring(dot + 1);
                             }
 
                             // Prend tous les bits 
                             byte[] contenu = part.getInputStream().readAllBytes();
-
-                            // Créeer l'instance de l'objet 
+                            
+                            // Set les attributs 
+                            type.getMethod("setNom",String.class).invoke(obj,nomFichier);
+                            type.getMethod("setContenu",byte.class).invoke(obj,contenu);
+                            type.getMethod("setExtension",String.class).invoke(obj,extension);
                         } else {
                             // Parcourir les....j'en sais rien LOL 
                             for (Field f : type.getDeclaredFields()) {
