@@ -2,8 +2,10 @@ package com.monframework.controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.Part;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.annotation.MultipartConfig;
 
 import java.util.List;
 import java.io.IOException;
@@ -22,6 +24,7 @@ import java.util.Map;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Field;
 
+@MultipartConfig
 public class FrontServletController extends HttpServlet {
 
     List<Class<?>> touteslesClasses = new ArrayList<>();
@@ -92,8 +95,39 @@ public class FrontServletController extends HttpServlet {
                         // Créé une instance vide 
                         Object obj = type.getDeclaredConstructor().newInstance();
 
-                        // Parcourir les....j'en sais rien LOL 
-                        for (Field f : type.getDeclaredFields()) {
+                        if (type.getSimpleName().equals("Fichier")) {
+                            // Section fichier de la rqt mulitpart 
+                            Part part = request.getPart("fichier");
+
+                            // Nom du fichier 
+                            String submitted = part.getSubmittedFileName();
+
+                            // On met submitted dans nom pour perdre le nom 
+                            // même s'il n'a pas de point 
+                            String nomFichier = submitted;
+
+                            // On prépare l'extension 
+                            String extension = "";
+
+                            // Regarde si il y a un point dans le nom du fichier 
+                            int dot = submitted.lastIndexOf(".");
+
+                            // If "oui" y a un dot
+                            if (dot != -1) {
+                                nomFichier = submitted.substring(0,dot);
+                                extension = submitted.substring(dot + 1);
+                            }
+
+                            // Prend tous les bits 
+                            byte[] contenu = part.getInputStream().readAllBytes();
+                            
+                            // Set les attributs 
+                            type.getMethod("setNom",String.class).invoke(obj,nomFichier);
+                            type.getMethod("setContenu",byte[].class).invoke(obj,contenu);
+                            type.getMethod("setExtension",String.class).invoke(obj,extension);
+                        } else {
+                            // Parcourir les....j'en sais rien LOL 
+                            for (Field f : type.getDeclaredFields()) {
                             // Prend la valuer dans la requête 
                             String val = request.getParameter(f.getName());
                             // null ve 
@@ -105,11 +139,12 @@ public class FrontServletController extends HttpServlet {
                             Class<?> ft = f.getType();
                             // le set avec l'instance obj
                             f.set(obj,val);
+                            }
                         }
 
                         arg[i] = obj;
                         
-                        System.out.println(arg[i]+"\n");
+                        // System.out.println(arg[i]+"\n");
                     }
 
                     // On exécute la fonction (elle renvoie "page.jsp")
