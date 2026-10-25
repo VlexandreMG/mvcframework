@@ -90,9 +90,15 @@ public class FrontServletController extends HttpServlet {
                         Class<?> type = listeParam[i].getType();
 
                         // Vériefie si le type attendue est de type String pour l'instant 
-                        // if (type == String.class) 
+                        // if (type == String.class)
 
-                        // Créé une instance vide 
+                        // Session : pas de constructeur vide, on l'enveloppe autour de la HttpSession
+                        if (type == Session.class) {
+                            arg[i] = new Session(request.getSession());
+                            continue;
+                        }
+
+                        // Créé une instance vide
                         Object obj = type.getDeclaredConstructor().newInstance();
 
                         if (type.getSimpleName().equals("Fichier")) {
