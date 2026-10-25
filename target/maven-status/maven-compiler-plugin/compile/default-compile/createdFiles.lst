@@ -1,4 +1,5 @@
 com/monframework/annotation/Rest.class
+com/monframework/model/Session.class
 com/monframework/model/ModelAndView.class
 com/monframework/annotation/Controller.class
 com/monframework/listener/AppContextListener.class
