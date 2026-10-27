@@ -150,7 +150,6 @@ public class FrontServletController extends HttpServlet {
                         }
 
                         arg[i] = obj;
-                        
                         // System.out.println(arg[i]+"\n");
                     }
 
