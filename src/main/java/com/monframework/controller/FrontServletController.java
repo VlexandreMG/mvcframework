@@ -31,6 +31,8 @@ public class FrontServletController extends HttpServlet {
     List<Class<?>> touteslesClasses = new ArrayList<>();
     private HashMap<UrlMapping, Mapping> mapping;
     String annotationRest;
+    // Sprint 10 : clé de l'utilisateur connecté dans la session (init-param du web.xml)
+    String cleSession;
 
     @Override
     public void init() throws ServletException {
@@ -38,6 +40,11 @@ public class FrontServletController extends HttpServlet {
         // Utilitaire.getClassesWithAnnotation("com.monapp.controller");
         this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
         annotationRest = (String) getServletContext().getAttribute("annotationRest");
+
+        // Lit l'init-param de CETTE servlet
+        cleSession = getInitParameter("session-user");
+        if (cleSession == null) cleSession = "user";
+        System.out.println("[SPRINT 10] Clé de session : " + cleSession);
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
