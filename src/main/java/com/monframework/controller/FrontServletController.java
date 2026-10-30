@@ -45,6 +45,9 @@ public class FrontServletController extends HttpServlet {
         cleSession = getInitParameter("session-user");
         if (cleSession == null) cleSession = "user";
         System.out.println("[SPRINT 10] Clé de session : " + cleSession);
+
+        pageLogin = getInitParameter("page-login");
+        if (pageLogin == null) pageLogin = "/login";
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
