@@ -83,6 +83,16 @@ public class FrontServletController extends HttpServlet {
                     Object objetTestController = testController.getConstructor().newInstance();
                     Method methodController = mapp.getMethode();
 
+                        if (methodController.isAnnotationPresent(Auth.class)) {
+                            HttpSession httpSession = request.getSession(false);
+                            Object user = (httpSession != null) ? httpSession.getAttribute(cleSession) : null;
+
+                            if (user == null) {
+                                response.sendRedirect(request.getContextPath() + pageLogin);
+                                return;
+                            }
+                        }
+
                     // Lister la liste des params
                     Parameter[] listeParam = methodController.getParameters();
 
