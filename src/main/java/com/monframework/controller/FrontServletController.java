@@ -32,6 +32,8 @@ public class FrontServletController extends HttpServlet {
 
     List<Class<?>> touteslesClasses = new ArrayList<>();
     private HashMap<UrlMapping, Mapping> mapping;
+    // Sprint 11 : instances uniques des contrôleurs (créées par AppContextListener)
+    private HashMap<Class<?>, Object> controleurs;
     String annotationRest;
     // Sprint 10 : clé de l'utilisateur connecté dans la session (init-param du web.xml)
     String cleSession;
@@ -45,6 +47,7 @@ public class FrontServletController extends HttpServlet {
         // Utilitaire.getClassesWithAnnotation("com.monapp.controller");
         this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
         annotationRest = (String) getServletContext().getAttribute("annotationRest");
+        this.controleurs = (HashMap<Class<?>, Object>) getServletContext().getAttribute("controleurs");
 
         // Lit l'init-param de CETTE servlet
         cleSession = getInitParameter("session-user");
@@ -87,8 +90,9 @@ public class FrontServletController extends HttpServlet {
                 trouvee = true; // On a trouvé la route !
 
                 try {
-                    Class<?> testController = Class.forName(mapp.getClassName().getName());
-                    Object objetTestController = testController.getConstructor().newInstance();
+                    Class<?> testController = mapp.getClassName();
+                    // Sprint 11 : on réutilise l'instance unique au lieu d'en créer une
+                    Object objetTestController = this.controleurs.get(testController);
                     Method methodController = mapp.getMethode();
 
                         if (methodController.isAnnotationPresent(Auth.class)) {
