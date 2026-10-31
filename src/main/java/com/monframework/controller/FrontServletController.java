@@ -33,6 +33,7 @@ public class FrontServletController extends HttpServlet {
     String annotationRest;
     // Sprint 10 : clé de l'utilisateur connecté dans la session (init-param du web.xml)
     String cleSession;
+    String pageLogin;
 
     @Override
     public void init() throws ServletException {
