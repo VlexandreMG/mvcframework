@@ -17,6 +17,8 @@ import com.monframework.core.Mapping;
 import com.monframework.core.UrlMapping;
 import com.monframework.model.ModelAndView;
 import com.monframework.model.Session;
+import jakarta.servlet.http.HttpSession;
+import com.monframework.annotation.Auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.ApplicationContext;
@@ -31,6 +33,9 @@ public class FrontServletController extends HttpServlet {
     List<Class<?>> touteslesClasses = new ArrayList<>();
     private HashMap<UrlMapping, Mapping> mapping;
     String annotationRest;
+    // Sprint 10 : clé de l'utilisateur connecté dans la session (init-param du web.xml)
+    String cleSession;
+    String pageLogin;
 
     @Override
     public void init() throws ServletException {
@@ -38,6 +43,14 @@ public class FrontServletController extends HttpServlet {
         // Utilitaire.getClassesWithAnnotation("com.monapp.controller");
         this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
         annotationRest = (String) getServletContext().getAttribute("annotationRest");
+
+        // Lit l'init-param de CETTE servlet
+        cleSession = getInitParameter("session-user");
+        if (cleSession == null) cleSession = "user";
+        System.out.println("[SPRINT 10] Clé de session : " + cleSession);
+
+        pageLogin = getInitParameter("page-login");
+        if (pageLogin == null) pageLogin = "/login";
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -72,6 +85,16 @@ public class FrontServletController extends HttpServlet {
                     Class<?> testController = Class.forName(mapp.getClassName().getName());
                     Object objetTestController = testController.getConstructor().newInstance();
                     Method methodController = mapp.getMethode();
+
+                        if (methodController.isAnnotationPresent(Auth.class)) {
+                            HttpSession httpSession = request.getSession(false);
+                            Object user = (httpSession != null) ? httpSession.getAttribute(cleSession) : null;
+
+                            if (user == null) {
+                                response.sendRedirect(request.getContextPath() + pageLogin);
+                                return;
+                            }
+                        }
 
                     // Lister la liste des params
                     Parameter[] listeParam = methodController.getParameters();
@@ -150,7 +173,6 @@ public class FrontServletController extends HttpServlet {
                         }
 
                         arg[i] = obj;
-                        
                         // System.out.println(arg[i]+"\n");
                     }
 

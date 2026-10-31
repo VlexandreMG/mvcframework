@@ -7,22 +7,6 @@
 
     <name>MonMvcFrameworkFragment</name>
 
-    <servlet>
-        <servlet-name>FrontServletController</servlet-name>
-        <servlet-class>com.monframework.controller.FrontServletController</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>FrontServletController</servlet-name>
-        <url-pattern>/ctl/*</url-pattern>
-    </servlet-mapping>
-
-    <context-param>
-        <param-name>package-a-scanner</param-name>
-        <param-value>com.testapp.controller</param-value>
-    </context-param>
-
     <listener>
         <listener-class>com.monframework.listener.AppContextListener</listener-class>
     </listener>
