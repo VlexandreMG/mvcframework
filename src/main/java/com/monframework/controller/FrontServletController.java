@@ -36,6 +36,8 @@ public class FrontServletController extends HttpServlet {
     // Sprint 10 : clé de l'utilisateur connecté dans la session (init-param du web.xml)
     String cleSession;
     String pageLogin;
+    // Sprint 10 bis : clé du rôle de l'utilisateur dans la session
+    String cleRole;
 
     @Override
     public void init() throws ServletException {
@@ -51,6 +53,9 @@ public class FrontServletController extends HttpServlet {
 
         pageLogin = getInitParameter("page-login");
         if (pageLogin == null) pageLogin = "/login";
+
+        cleRole = getInitParameter("session-role");
+        if (cleRole == null) cleRole = "role";
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -90,9 +95,21 @@ public class FrontServletController extends HttpServlet {
                             HttpSession httpSession = request.getSession(false);
                             Object user = (httpSession != null) ? httpSession.getAttribute(cleSession) : null;
 
+                            // 1. Pas connecté → login
                             if (user == null) {
                                 response.sendRedirect(request.getContextPath() + pageLogin);
                                 return;
+                            }
+
+                            // 2. Rôle exigé ? (@Auth("admin"))
+                            String roleExige = methodController.getAnnotation(Auth.class).value();
+                            if (!roleExige.isEmpty()) {
+                                Object roleUser = httpSession.getAttribute(cleRole);
+                                if (roleUser == null || !roleExige.equals(roleUser.toString())) {
+                                    response.sendError(HttpServletResponse.SC_FORBIDDEN,
+                                            "Accès réservé au rôle : " + roleExige);
+                                    return;
+                                }
                             }
                         }
 
