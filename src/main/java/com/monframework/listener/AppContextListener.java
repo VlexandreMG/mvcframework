@@ -54,11 +54,16 @@ public class AppContextListener implements ServletContextListener {
             packageName = "com.testapp.controller";
         }
         HashMap<UrlMapping, Mapping> mapping= new HashMap<>();
+        // Sprint 11 : classe du contrôleur → son unique instance (singleton)
+        HashMap<Class<?>, Object> controleurs = new HashMap<>();
 
         try {
             List<Class<?>> classes = Utilitaire.getClassesWithAnnotation(packageName);
 
             for (Class<?> class1 : classes) {
+                // Sprint 11 : une seule instance par contrôleur
+                controleurs.put(class1, class1.getConstructor().newInstance());
+
                 Map<UrlMapping, Mapping> tableRoutageClasse = Utilitaire.createMapping(class1);
                 for (Map.Entry<UrlMapping, Mapping> entry : tableRoutageClasse.entrySet()) {
                     UrlMapping urlMapping = entry.getKey();
@@ -77,5 +82,6 @@ public class AppContextListener implements ServletContextListener {
         }
 
         context.setAttribute("mapping", mapping);
+        context.setAttribute("controleurs", controleurs);
     }
 }
