@@ -7,30 +7,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.annotation.MultipartConfig;
 
-import java.util.List;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Map;
 import java.lang.reflect.Method;
 import com.monframework.core.Mapping;
 import com.monframework.core.UrlMapping;
-import com.monframework.model.ModelAndView;
 import com.monframework.model.Session;
 import jakarta.servlet.http.HttpSession;
 import com.monframework.annotation.Auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.context.ApplicationContext;
 import java.util.HashMap;
-import java.util.Map;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Field;
 
 @MultipartConfig
 public class FrontServletController extends HttpServlet {
 
-    List<Class<?>> touteslesClasses = new ArrayList<>();
     private HashMap<UrlMapping, Mapping> mapping;
     // Sprint 11 : instances uniques des contrôleurs (créées par AppContextListener)
     private HashMap<Class<?>, Object> controleurs;
@@ -125,8 +118,6 @@ public class FrontServletController extends HttpServlet {
 
                     // Parcourir tous les paramètres 
                     for (int i = 0 ; i < listeParam.length ; i++) {
-                            // Prends le nom du parametre
-                        String nom = listeParam[i].getName();
 
                             // Les associe au name dans l'input 
                         // String valeur = request.getParameter(nom);
@@ -186,8 +177,6 @@ public class FrontServletController extends HttpServlet {
 
                             // Rend accessible si en private 
                             f.setAccessible(true);
-                            // Prend les types du field
-                            Class<?> ft = f.getType();
                             // le set avec l'instance obj
                             f.set(obj,val);
                             }
