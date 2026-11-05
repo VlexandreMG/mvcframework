@@ -24,13 +24,13 @@ import java.lang.reflect.Field;
 public class FrontServletController extends HttpServlet {
 
     private HashMap<UrlMapping, Mapping> mapping;
-    // Sprint 11 : instances uniques des contrôleurs (créées par AppContextListener)
+    // Instances uniques des contrôleurs (créées par AppContextListener)
     private HashMap<Class<?>, Object> controleurs;
     String annotationRest;
-    // Sprint 10 : clé de l'utilisateur connecté dans la session (init-param du web.xml)
+    // Clé de l'utilisateur connecté dans la session (init-param du web.xml)
     String cleSession;
     String pageLogin;
-    // Sprint 10 bis : clé du rôle de l'utilisateur dans la session
+    // Clé du rôle de l'utilisateur dans la session
     String cleRole;
 
     @Override
@@ -55,8 +55,7 @@ public class FrontServletController extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
 
-        //
-        // Prends la requête de l'utilsateur
+        // Prends la requête de l'utilisateur
         String urlContenu = request.getPathInfo() != null ? request.getPathInfo() : request.getServletPath();
         String typeRequete = request.getMethod();
 
@@ -67,11 +66,10 @@ public class FrontServletController extends HttpServlet {
 
             if (this.mapping.containsKey(urlRecherche)) {
                 Mapping mapp = this.mapping.get(urlRecherche);
-                trouvee = true; // On a trouvé la route !
 
                 try {
                     Class<?> testController = mapp.getClassName();
-                    // Sprint 11 : on réutilise l'instance unique au lieu d'en créer une
+                    // On réutilise l'instance unique au lieu d'en créer une
                     Object objetTestController = this.controleurs.get(testController);
                     Method methodController = mapp.getMethode();
 
@@ -118,7 +116,7 @@ public class FrontServletController extends HttpServlet {
                         Object obj = type.getDeclaredConstructor().newInstance();
 
                         if (type.getSimpleName().equals("Fichier")) {
-                            // Section fichier de la rqt mulitpart 
+                            // Section fichier de la requête multipart 
                             Part part = request.getPart("fichier");
 
                             // Nom du fichier 
@@ -134,13 +132,13 @@ public class FrontServletController extends HttpServlet {
                             // Regarde si il y a un point dans le nom du fichier 
                             int dot = submitted.lastIndexOf(".");
 
-                            // If "oui" y a un dot
+                            // Sépare le nom et l'extension
                             if (dot != -1) {
                                 nomFichier = submitted.substring(0,dot);
                                 extension = submitted.substring(dot + 1);
                             }
 
-                            // Prend tous les bits 
+                            // Lit tout le contenu du fichier 
                             byte[] contenu = part.getInputStream().readAllBytes();
                             
                             // Set les attributs 
@@ -148,11 +146,11 @@ public class FrontServletController extends HttpServlet {
                             type.getMethod("setContenu",byte[].class).invoke(obj,contenu);
                             type.getMethod("setExtension",String.class).invoke(obj,extension);
                         } else {
-                            // Parcourir les....j'en sais rien LOL 
+                            // Remplit chaque champ de l'objet avec le paramètre de requête du même nom 
                             for (Field f : type.getDeclaredFields()) {
-                            // Prend la valuer dans la requête 
+                            // Prend la valeur dans la requête 
                             String val = request.getParameter(f.getName());
-                            // null ve 
+                            // Paramètre absent de la requête : on laisse le champ vide 
                             if (val == null ) continue;
 
                             // Rend accessible si en private 
@@ -169,7 +167,7 @@ public class FrontServletController extends HttpServlet {
                     Object resultat = methodController.invoke(objetTestController, arg);
 
                     if (resultat != null) {
-                        // Drapeau pour voir les rest 
+                        // true si la méthode porte @Rest (réponse JSON) 
                         boolean estRest = false;
 
                         if (annotationRest != null && !annotationRest.isEmpty()) {
@@ -195,7 +193,7 @@ public class FrontServletController extends HttpServlet {
                         } 
                             String pageJsp = resultat.toString(); // "page.jsp"
 
-                        // --- TON BLOC SPRINT 5 (Récupération du ModelAndView et setAttribute) ---
+                        // Copie les données du ModelAndView dans la requête pour la JSP
                         try {
                             Method getMvMethod = testController.getMethod("getMv");
                             Object modelAndViewObjet = getMvMethod.invoke(objetTestController);
@@ -210,13 +208,10 @@ public class FrontServletController extends HttpServlet {
                                 }
                             }
                         } catch (NoSuchMethodException e) {
-                        }    
-                        
-                         // "page.jsp"
+                            // Normal : ce contrôleur n'utilise pas de ModelAndView
+                        }
 
-                        
-
-                        // ON SUPPRIME le out.println(resultat.toString()) ET ON FAIT LE VRAI FORWARD :
+                        // Transmet la requête à la JSP
                         request.getRequestDispatcher("/" + pageJsp).forward(request, response);
                     }
                 } catch (Exception e) {

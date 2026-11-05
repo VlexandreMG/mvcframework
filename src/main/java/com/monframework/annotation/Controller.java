@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Controller {
     String value();
-    //Pourquoi method()
+    // Méthode HTTP de la route (GET par défaut)
     String method() default "GET";
 }

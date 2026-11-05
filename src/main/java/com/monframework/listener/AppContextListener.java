@@ -30,7 +30,7 @@ public class AppContextListener implements ServletContextListener {
         // Instanciation de la properties 
         Properties prop = new Properties();
 
-        // Tsy aiko eh 
+        // Charge config.properties depuis le classpath 
         try (java.io.InputStream in = Thread.currentThread().getContextClassLoader()
             .getResourceAsStream("config.properties")) {
         if (in != null) {
@@ -54,14 +54,14 @@ public class AppContextListener implements ServletContextListener {
             packageName = "com.testapp.controller";
         }
         HashMap<UrlMapping, Mapping> mapping= new HashMap<>();
-        // Sprint 11 : classe du contrôleur → son unique instance (singleton)
+        // Classe du contrôleur → son unique instance (singleton)
         HashMap<Class<?>, Object> controleurs = new HashMap<>();
 
         try {
             List<Class<?>> classes = Utilitaire.getClassesWithAnnotation(packageName);
 
             for (Class<?> class1 : classes) {
-                // Sprint 11 : une seule instance par contrôleur
+                // Une seule instance par contrôleur
                 controleurs.put(class1, class1.getConstructor().newInstance());
 
                 Map<UrlMapping, Mapping> tableRoutageClasse = Utilitaire.createMapping(class1);
