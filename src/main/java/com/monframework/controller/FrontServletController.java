@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.annotation.MultipartConfig;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import com.monframework.core.Mapping;
 import com.monframework.core.UrlMapping;
@@ -56,7 +55,6 @@ public class FrontServletController extends HttpServlet {
             throws ServletException, IOException {
 
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
 
         //
         // Prends la requête de l'utilsateur
@@ -236,7 +234,7 @@ public class FrontServletController extends HttpServlet {
             }
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            out.println("⚠️ Le framework est bien là, mais aucune classe n'a été trouvée.");
+            response.getWriter().println("⚠️ Le framework est bien là, mais aucune classe n'a été trouvée.");
         }
     }
 
