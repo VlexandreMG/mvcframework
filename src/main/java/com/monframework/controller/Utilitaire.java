@@ -101,9 +101,7 @@ public class Utilitaire {
                 } else {
                     tableRoutage.put(urlMap, mapp);
                 }
-            } else {
-                System.out.println("L'annotation n'existe pas ou n'est pas en public.");
-            }
+            }        
         }
 
         return tableRoutage;

@@ -42,7 +42,6 @@ public class FrontServletController extends HttpServlet {
         // Lit l'init-param de CETTE servlet
         cleSession = getInitParameter("session-user");
         if (cleSession == null) cleSession = "user";
-        System.out.println("[SPRINT 10] Clé de session : " + cleSession);
 
         pageLogin = getInitParameter("page-login");
         if (pageLogin == null) pageLogin = "/login";
@@ -60,9 +59,6 @@ public class FrontServletController extends HttpServlet {
         // Prends la requête de l'utilsateur
         String urlContenu = request.getPathInfo() != null ? request.getPathInfo() : request.getServletPath();
         String typeRequete = request.getMethod();
-        System.out.println("Recherche de : " + urlContenu + " en " + typeRequete);
-        // Condition de cette requête
-        //
 
 
         if (this.mapping != null && !this.mapping.isEmpty()) {
@@ -214,7 +210,6 @@ public class FrontServletController extends HttpServlet {
                                 }
                             }
                         } catch (NoSuchMethodException e) {
-                            System.out.println("[SPRINT 4] Pas de ModelAndView.");
                         }    
                         
                          // "page.jsp"
