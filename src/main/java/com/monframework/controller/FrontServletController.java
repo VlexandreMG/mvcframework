@@ -36,8 +36,6 @@ public class FrontServletController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        // touteslesClasses =
-        // Utilitaire.getClassesWithAnnotation("com.monapp.controller");
         this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
         annotationRest = (String) getServletContext().getAttribute("annotationRest");
         this.controleurs = (HashMap<Class<?>, Object>) getServletContext().getAttribute("controleurs");
@@ -71,10 +69,6 @@ public class FrontServletController extends HttpServlet {
         boolean trouvee = false;
 
         if (this.mapping != null && !this.mapping.isEmpty()) {
-
-            // System.out.println("La classe " + class1 + "<br>");
-
-            // Map<UrlMapping, Mapping> link = Utilitaire.createMapping(class1);
 
             UrlMapping urlRecherche = new UrlMapping(urlContenu, typeRequete);
 
@@ -118,15 +112,8 @@ public class FrontServletController extends HttpServlet {
 
                     // Parcourir tous les paramètres 
                     for (int i = 0 ; i < listeParam.length ; i++) {
-
-                            // Les associe au name dans l'input 
-                        // String valeur = request.getParameter(nom);
-                        
                             // Prend le type du paramètre
                         Class<?> type = listeParam[i].getType();
-
-                        // Vériefie si le type attendue est de type String pour l'instant 
-                        // if (type == String.class)
 
                         // Session : pas de constructeur vide, on l'enveloppe autour de la HttpSession
                         if (type == Session.class) {
@@ -183,7 +170,6 @@ public class FrontServletController extends HttpServlet {
                         }
 
                         arg[i] = obj;
-                        // System.out.println(arg[i]+"\n");
                     }
 
                     // On exécute la fonction (elle renvoie "page.jsp")
@@ -249,16 +235,6 @@ public class FrontServletController extends HttpServlet {
             }
 
             if (!trouvee) {
-                // out.println("HSeeeee Il n'y a pas de fonction associé à cette Url. <br>");
-                // for (Class<?> class1 : touteslesClasses) {
-                // Map<String, Mapping> lien = Utilitaire.createMapping(class1);
-                // for (Map.Entry<String,Mapping> ln : lien.entrySet()) {
-                // String url = ln.getKey();
-                // Mapping map = ln.getValue();
-                // out.println("Nom de la fonction : "+ map.getMethode().getName() + " || " + "
-                // Url correspondant : " + url + "<br>");
-                // }
-                // }
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Aucune route pour " + typeRequete + " " + urlContenu);
             }
         } else {
