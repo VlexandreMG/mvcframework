@@ -247,24 +247,7 @@ public class FrontServletController extends HttpServlet {
                         
                          // "page.jsp"
 
-                        // --- TON BLOC SPRINT 5 (Récupération du ModelAndView et setAttribute) ---
-                        try {
-                            Method getMvMethod = testController.getMethod("getMv");
-                            Object modelAndViewObjet = getMvMethod.invoke(objetTestController);
-
-                            if (modelAndViewObjet != null) {
-                                Method getDataMethod = modelAndViewObjet.getClass().getMethod("getData");
-                                java.util.HashMap<String, Object> données = (java.util.HashMap<String, Object>) getDataMethod
-                                        .invoke(modelAndViewObjet);
-
-                                for (java.util.Map.Entry<String, Object> entry : données.entrySet()) {
-                                    request.setAttribute(entry.getKey(), entry.getValue());
-                                }
-                            }
-                        } catch (NoSuchMethodException e) {
-                            System.out.println("[SPRINT 4] Pas de ModelAndView.");
-                        }
-                        // --- FIN BLOC SPRINT 5 ---
+                        
 
                         // ON SUPPRIME le out.println(resultat.toString()) ET ON FAIT LE VRAI FORWARD :
                         request.getRequestDispatcher("/" + pageJsp).forward(request, response);
