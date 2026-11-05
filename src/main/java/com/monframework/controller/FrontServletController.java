@@ -66,7 +66,6 @@ public class FrontServletController extends HttpServlet {
         // Condition de cette requête
         //
 
-        boolean trouvee = false;
 
         if (this.mapping != null && !this.mapping.isEmpty()) {
 
@@ -232,9 +231,7 @@ public class FrontServletController extends HttpServlet {
                         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
                     }
                 }
-            }
-
-            if (!trouvee) {
+            } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Aucune route pour " + typeRequete + " " + urlContenu);
             }
         } else {
