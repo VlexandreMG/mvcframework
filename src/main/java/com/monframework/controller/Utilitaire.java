@@ -72,31 +72,6 @@ public class Utilitaire {
         return classesWithAnnotation;
     }
 
-    public static Map<Controller, Method> getAnnotationsWithClasses(Class<?> className) {
-        Map<Controller, Method> methodesAnnotess = new HashMap<>();
-
-        // 1. On vérifie si la classe fournie n'est pas nulle pour éviter les plantages
-        if (className != null) {
-            // 2. Détecter toutes les méthodes publiques déclarées dans la classe
-            Method[] methodesArray = className.getDeclaredMethods();
-
-            for (Method method : methodesArray) {
-                if (method.isAnnotationPresent(Controller.class)) {
-                    if (Modifier.isPublic(method.getModifiers())) {
-                        Controller annotation = method.getAnnotation(Controller.class);
-                        methodesAnnotess.put(annotation, method);
-                    } else {
-                        System.out.println("La méthode " + method.getName() + "est annotée mais n'est pas en public.");
-                    }
-                }
-            }
-        } else {
-            System.out.println("La classe " + className + "n'existe pas.");
-        }
-
-        return methodesAnnotess;
-    }
-
     public static Map<UrlMapping, Mapping> createMapping(Class<?> class1) {
 
         Map<UrlMapping, Mapping> tableRoutage = new HashMap<>();
