@@ -51,7 +51,8 @@ public class AppContextListener implements ServletContextListener {
 
         String packageName = context.getInitParameter("package-a-scanner");
         if (packageName == null) {
-            packageName = "com.testapp.controller";
+            System.out.println("[ERROR] Paramètre package-a-scanner manquant dans le web.xml");
+            return;
         }
         HashMap<UrlMapping, Mapping> mapping= new HashMap<>();
         // Classe du contrôleur → son unique instance (singleton)
