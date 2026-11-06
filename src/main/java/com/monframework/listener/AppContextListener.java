@@ -77,7 +77,6 @@ public class AppContextListener implements ServletContextListener {
                 }
             }
         } catch (Exception e) {
-            System.out.println("[ERROR SPRINT 4] Erreur lors du scan : " + e.getMessage());
             e.printStackTrace();
         }
 
