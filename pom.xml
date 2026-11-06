@@ -63,7 +63,7 @@
         </configuration>
       </plugin>
 
-      <!-- Copie automatique du JAR généré vers WEB-INF/lib de monapp -->
+      <!-- Copie automatique les dépendances (Jackson , Spring...) vers WEB-INF/lib de monapp -->
      <plugin>
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-dependency-plugin</artifactId>
