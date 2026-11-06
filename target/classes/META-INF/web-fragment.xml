@@ -11,15 +11,5 @@
         <listener-class>com.monframework.listener.AppContextListener</listener-class>
     </listener>
 
-    <servlet>
-        <servlet-name>FrontServlet</servlet-name>
-        <servlet-class>com.monframework.core.FrontServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>FrontServlet</servlet-name>
-        <url-pattern>/tap/*</url-pattern>
-    </servlet-mapping>
 
 </web-fragment>
