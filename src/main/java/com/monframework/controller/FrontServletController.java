@@ -38,6 +38,7 @@ public class FrontServletController extends HttpServlet {
         this.mapping = (HashMap<UrlMapping, Mapping>) getServletContext().getAttribute("mapping");
         annotationRest = (String) getServletContext().getAttribute("annotationRest");
         this.controleurs = (HashMap<Class<?>, Object>) getServletContext().getAttribute("controleurs");
+        System.out.println("La servlet fut créé XD");
 
         // Lit l'init-param de CETTE servlet
         cleSession = getInitParameter("session-user");
